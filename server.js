@@ -65,6 +65,7 @@ app.get('/providers', async (req, res) => {
 })
 
 app.get('/', (req, res) => {
+    console.log(process.env.PRIVATE_KEY)
     res.send('Hello world')
 })
 
