@@ -61,12 +61,10 @@ app.get('/providers', async (req, res) => {
             range: process.env.SPREADSHEET_RANGE
         });
     const data = trimDataTable(sheetsResponse);
-    console.log(data);
     res.send(data)
 })
 
 app.get('/', (req, res) => {
-    test()
     res.send('Hello world')
 })
 
