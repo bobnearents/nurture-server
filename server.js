@@ -52,7 +52,7 @@ app.get('/providers', async (req, res) => {
     const jwtClient = new google.auth.JWT(
         process.env.CLIENT_EMAIL, 
         null, 
-        process.env.PRIVATE_KEY, 
+        process.env.PRIVATE_KEY.replace(/\\n/g, '\n'), //sanitize the key since heroku escapes out the \n to \\n https://stackoverflow.com/questions/39492587/escaping-issue-with-firebase-privatekey-as-a-heroku-config-variable
         ["https://www.googleapis.com/auth/spreadsheets"]
     );
     const sheets = google.sheets({ version: "v4", "auth": jwtClient });
