@@ -49,19 +49,26 @@ const trimDataTable = (response) => {
 }
 
 app.get('/providers', async (req, res) => {
-    const jwtClient = new google.auth.JWT(
-        process.env.CLIENT_EMAIL, 
-        null, 
-        process.env.PRIVATE_KEY.replace(/\\n/g, '\n'), //sanitize the key since heroku escapes out the \n to \\n https://stackoverflow.com/questions/39492587/escaping-issue-with-firebase-privatekey-as-a-heroku-config-variable
-        ["https://www.googleapis.com/auth/spreadsheets"]
-    );
-    const sheets = google.sheets({ version: "v4", "auth": jwtClient });
-    const sheetsResponse = await sheets.spreadsheets.values.get({
-            spreadsheetId: process.env.SPREADSHEET_ID,
-            range: process.env.SPREADSHEET_RANGE
-        });
-    const data = trimDataTable(sheetsResponse);
-    res.send(data)
+
+    console.log(process.env)
+    try {    
+        const jwtClient = new google.auth.JWT(
+            process.env.CLIENT_EMAIL, 
+            null, 
+            process.env.PRIVATE_KEY.replace(/\\n/g, '\n'), //sanitize the key since heroku escapes out the \n to \\n https://stackoverflow.com/questions/39492587/escaping-issue-with-firebase-privatekey-as-a-heroku-config-variable
+            ["https://www.googleapis.com/auth/spreadsheets"]
+        );
+        const sheets = google.sheets({ version: "v4", "auth": jwtClient });
+        const sheetsResponse = await sheets.spreadsheets.values.get({
+                spreadsheetId: process.env.SPREADSHEET_ID,
+                range: process.env.SPREADSHEET_RANGE
+            });
+        const data = trimDataTable(sheetsResponse);
+        res.send(data)
+    } catch(err) {
+        console.log(err);
+        res.send(err).status(404)
+    }
 })
 
 app.get('/', (req, res) => {
