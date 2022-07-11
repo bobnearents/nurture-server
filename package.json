@@ -15,7 +15,9 @@
     "express": "^4.17.3",
     "googleapis": "^95.0.0",
     "node-fetch": "^3.2.4",
-    "nodemon": "^2.0.16"
+    "nodemon": "^2.0.16",
+    "pg": "^8.7.3",
+    "postgrator": "^7.1.0"
   },
   "type": "module"
 }

@@ -1,0 +1,20 @@
+CREATE TABLE provider (
+    id SERIAL PRIMARY KEY NOT NULL,
+    date_created TIMESTAMP DEFAULT now() NOT NULL,
+    overview TEXT,
+    name TEXT NOT NULL,
+    business_name TEXT,
+    address_1 TEXT,
+    address_2 TEXT,
+    city TEXT,
+    state TEXT,
+    zip INTEGER,
+    country TEXT,
+    email TEXT,
+    phone INTEGER,
+    website TEXT,
+    role TEXT,
+    needs_review BOOLEAN,
+    currently_practicing BOOLEAN,
+    shareable BOOLEAN
+);
