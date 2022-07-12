@@ -7,7 +7,7 @@
     "start": "nodemon server.js",
     "deploy": "git push heroku master && heroku logs --tail",
     "migrate": "postgrator --config ./config/postgrator-config.js",
-    "seed": "psql -U postgres -d nurture -c \"BEGIN TRANSACTION;\" -f ./seeds/seed.certification.sql -f ./seeds/seed.payment.sql -f ./seeds/seed.service.sql -c \"COMMIT;\"",
+    "seed": "psql -U postgres -d nurture -c \"BEGIN TRANSACTION;\" -f ./db/seeds/seed.certification.sql -f ./db/seeds/seed.payment.sql -f ./db/seeds/seed.service.sql -c \"COMMIT;\"",
     "refresh": "npm run migrate 0 && npm run migrate && npm run seed"
   },
   "author": "",

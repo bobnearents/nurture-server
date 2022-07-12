@@ -1,7 +1,7 @@
 import config from './config.js';
 
 export default {
-  migrationDirectory: 'migrations',
+  migrationPattern: './db/migrations/*',
   driver: 'pg',
   host: config.DB_HOST,
   port: config.DB_PORT,
