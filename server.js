@@ -1,6 +1,7 @@
 import config from './config/config.js';
 import express from 'express';
 import zipRouter from './src/zip/zip-router.js';
+import providerRouter from './src/provider/provider-router.js';
 const app = express();
 
 //middleware
@@ -22,6 +23,7 @@ app.use(function (req, res, next) {
 });
 
 app.use('/zip-codes', zipRouter);
+app.use('/providers', providerRouter);
 
 app.get('/', (req, res) => {
   res.send('hello world');

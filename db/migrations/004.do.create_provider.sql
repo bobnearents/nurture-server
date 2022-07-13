@@ -14,7 +14,7 @@ CREATE TABLE provider (
     phone INTEGER,
     website TEXT,
     role TEXT,
-    needs_review BOOLEAN,
+    needs_review BOOLEAN DEFAULT TRUE,
     currently_practicing BOOLEAN,
     shareable BOOLEAN
 );
