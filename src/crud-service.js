@@ -105,21 +105,22 @@ const getAllProviders = async () => {
   return rows;
 };
 
-const generateTableFunctions = (tableArray) => {
-  const tableFunctions = { getAllProviders };
+//write them all out like this, so we still get access to the jsdocs
+const service = new CrudFunctions('service');
+const payment = new CrudFunctions('payment');
+const certification = new CrudFunctions('certification');
+const provider = new CrudFunctions('provider');
+const provider_certification = new CrudFunctions('provider_certification');
+const provider_payment = new CrudFunctions('provider_payment');
+const provider_service = new CrudFunctions('provider_service');
 
-  tableArray.forEach((table) => {
-    tableFunctions[table] = new CrudFunctions(table);
-  });
-  return tableFunctions;
+export default {
+  service,
+  payment,
+  certification,
+  provider,
+  provider_certification,
+  provider_payment,
+  provider_service,
+  getAllProviders
 };
-
-export default generateTableFunctions([
-  'service',
-  'payment',
-  'certification',
-  'provider',
-  'provider_certification',
-  'provider_payment',
-  'provider_service'
-]);

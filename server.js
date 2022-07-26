@@ -1,6 +1,8 @@
 import config from './config/config.js';
 import zipRouter from './src/zip/zip-router.js';
 import providerRouter from './src/provider/provider-router.js';
+import paymentRouter from './src/payment/payment-router.js';
+import serviceRouter from './src/service/service-router.js';
 import express from 'express';
 const app = express();
 
@@ -27,6 +29,8 @@ app.get('/', (req, res) => {
 });
 app.use('/zip-codes', zipRouter);
 app.use('/providers', providerRouter);
+app.use('/payment', paymentRouter);
+app.use('/service', serviceRouter);
 
 app.listen(config.PORT, () => {
   console.log(`listening at port: ${config.PORT}`);

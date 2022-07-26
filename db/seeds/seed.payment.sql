@@ -5,5 +5,4 @@ VALUES
     ('Medicaid'),
     ('FAMIS'),
     ('Fee for Service'),
-    ('Sliding Scale'),
-    ('Other')
+    ('Sliding Scale')

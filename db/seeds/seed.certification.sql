@@ -18,5 +18,4 @@ VALUES
     ('Medical Degree (MD)'),
     ('Nursing Degree (RN, BSN)'),
     ('Breastfeeding USA Counselor'),
-    ('Peer Breastfeeding Counselor'),
-    ('Other')
+    ('Peer Breastfeeding Counselor')
