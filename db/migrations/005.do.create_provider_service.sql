@@ -1,5 +1,6 @@
 CREATE TABLE provider_service (
-    provider_id INTEGER NOT NULL REFERENCES provider(id),
-    service_id INTEGER NOT NULL REFERENCES service(id),
-    provider_description TEXT
+    id SERIAL PRIMARY KEY NOT NULL,
+    provider_description TEXT,
+    provider_id INTEGER REFERENCES provider(id),
+    service_id INTEGER REFERENCES service(id)
 );

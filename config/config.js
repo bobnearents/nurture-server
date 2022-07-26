@@ -3,7 +3,7 @@ dotenv.config();
 
 export default {
   PORT: process.env.PORT,
-  NODE_ENV: process.env.NODE_ENV || 'development',
+  NODE_ENV: process.env.NODE_ENV || '',
   ZIP_KEY: process.env.ZIP_KEY,
   //variables to interact with db
   DB_HOST: process.env.DB_HOST,

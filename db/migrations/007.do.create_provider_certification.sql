@@ -1,5 +1,6 @@
 CREATE TABLE provider_certification (
-    provider_id INTEGER NOT NULL REFERENCES provider(id),
-    certification_id INTEGER NOT NULL REFERENCES certification(id),
-    provider_description TEXT
+    id SERIAL PRIMARY KEY NOT NULL,
+    provider_description TEXT,
+    provider_id INTEGER REFERENCES provider(id),
+    certification_id INTEGER REFERENCES certification(id)
 );

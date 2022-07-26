@@ -1,5 +1,6 @@
 CREATE TABLE provider_payment (
-    provider_id INTEGER NOT NULL REFERENCES provider(id),
-    payment_id INTEGER NOT NULL REFERENCES payment(id),
-    provider_description TEXT
+    id SERIAL PRIMARY KEY NOT NULL,
+    provider_description TEXT,
+    provider_id INTEGER REFERENCES provider(id),
+    payment_id INTEGER REFERENCES payment(id)
 );

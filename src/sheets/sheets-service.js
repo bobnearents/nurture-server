@@ -1,4 +1,5 @@
 import { google } from 'googleapis';
+import config from '../../config/config.js';
 
 const jwtClient = new google.auth.JWT(
   config.CLIENT_EMAIL,
@@ -31,8 +32,9 @@ const trimDataTable = (response) => {
       const headerName = header || headers.fallback[i];
       if (i < 2) newProvider.formData[headerName] = provider[i];
       else if (i < 6) newProvider.services[headerName] = provider[i];
-      else if (i < 19) newProvider.contact[headerName] = provider[i];
-      else if (i < 40) newProvider.certifications[headerName] = provider[i];
+      else if (i < 19) {
+        if (provider[i]) newProvider.contact[headerName] = provider[i];
+      } else if (i < 40) newProvider.certifications[headerName] = provider[i];
       else if (i < 43) newProvider.visibility[headerName] = provider[i];
       else if (i < 51) newProvider.paymentOptions[headerName] = provider[i];
     });
@@ -56,82 +58,22 @@ const trimDataTable = (response) => {
   });
   //only send a provider if it should be visible and has a name provided
   return providers.filter((provider) => {
-    return provider !== undefined && provider.contact['Name'];
+    return provider !== undefined && provider.contact['name'];
   });
 };
 
-app.get('/providers', async (req, res) => {
+const getProviders = async () => {
   try {
     const sheetsResponse = await sheetsService.spreadsheets.values.get({
       spreadsheetId: config.SPREADSHEET_ID,
       range: config.SPREADSHEET_RANGE
     });
     const data = trimDataTable(sheetsResponse);
-    res.send(data);
+
+    return data;
   } catch (err) {
-    console.log(err);
-    res.sendStatus(404);
+    return err;
   }
-});
+};
 
-app.post('/comment', (req, res) => {
-  const requestBody = {
-    values: [[req.body.comment]]
-  };
-  sheetsService.spreadsheets.values.append(
-    {
-      spreadsheetId: config.SPREADSHEET_ID,
-      range: 'User-Comments!A1',
-      valueInputOption: 'RAW',
-      requestBody,
-      insertDataOption: 'INSERT_ROWS'
-    },
-    (err, result) => {
-      if (err) {
-        // Handle error.
-        console.log(err);
-      } else {
-        // console.log(result);
-      }
-    }
-  );
-});
-
-app.post('/new-provider', async (req, res) => {
-  const newProvider = req.body;
-  const formData = [44, 22];
-  //convert object to array
-  Object.keys(newProvider).forEach((key) => {
-    newProvider[key] = Object.values(newProvider[key]);
-  });
-
-  const requestBody = {
-    values: [
-      [
-        ...formData,
-        ...newProvider.services,
-        ...newProvider.contact,
-        ...newProvider.certifications,
-        ...newProvider.visibility,
-        ...newProvider.paymentOptions
-      ]
-    ]
-  };
-  sheetsService.spreadsheets.values.append(
-    {
-      spreadsheetId: config.SPREADSHEET_ID,
-      range: 'A1',
-      valueInputOption: 'RAW',
-      requestBody,
-      insertDataOption: 'INSERT_ROWS'
-    },
-    (err, result) => {
-      if (err) {
-        // Handle error.
-        console.log(err);
-      } else {
-        // console.log(result);
-      }
-    }
-  );
-});
+export default getProviders;

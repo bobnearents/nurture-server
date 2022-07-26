@@ -1,5 +1,5 @@
 import express from 'express';
-import providerService from '../crud-service.js';
+import providerService from './provider-service.js';
 const providerRouter = express.Router();
 
 providerRouter.route('/').get(async (req, res) => {
@@ -9,6 +9,11 @@ providerRouter.route('/').get(async (req, res) => {
 providerRouter.route('/:id/').get(async (req, res) => {
   const { id } = req.params;
   const rows = await providerService.getProviderById(id);
+  res.send(rows);
+});
+providerRouter.route('/add').post(async (req, res) => {
+  const { provider } = req.body;
+  const rows = await providerService.createNewProvider(provider);
   res.send(rows);
 });
 

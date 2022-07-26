@@ -8,7 +8,10 @@
     "deploy": "git push heroku master && heroku logs --tail",
     "migrate": "postgrator --config ./config/postgrator-config.js",
     "seed": "psql -U postgres -d nurture -c \"BEGIN TRANSACTION;\" -f ./db/seeds/seed.certification.sql -f ./db/seeds/seed.payment.sql -f ./db/seeds/seed.service.sql -c \"COMMIT;\"",
-    "refresh": "npm run migrate 0 && npm run migrate && npm run seed"
+    "seed-sheets": "node ./db/seeds/seed-sheets-data.js",
+    "prerefresh": "npm run migrate 0 && npm run migrate",
+    "refresh": "npm run seed",
+    "postrefresh": "npm run seed-sheets"
   },
   "author": "",
   "license": "ISC",

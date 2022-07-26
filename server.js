@@ -1,7 +1,7 @@
 import config from './config/config.js';
-import express from 'express';
 import zipRouter from './src/zip/zip-router.js';
 import providerRouter from './src/provider/provider-router.js';
+import express from 'express';
 const app = express();
 
 //middleware
@@ -14,7 +14,7 @@ app.use(function (req, res, next) {
         ? 'https://nurture-client.herokuapp.com'
         : 'http://localhost:3000'
     }`
-  ); // update to match the domain you will make the request from
+  );
   res.header(
     'Access-Control-Allow-Headers',
     'Origin, X-Requested-With, Content-Type, Accept'
@@ -22,12 +22,11 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use('/zip-codes', zipRouter);
-app.use('/providers', providerRouter);
-
 app.get('/', (req, res) => {
   res.send('hello world');
 });
+app.use('/zip-codes', zipRouter);
+app.use('/providers', providerRouter);
 
 app.listen(config.PORT, () => {
   console.log(`listening at port: ${config.PORT}`);
