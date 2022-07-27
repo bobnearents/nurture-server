@@ -111,7 +111,7 @@ const getAllProviders = async () => {
   //go through each name and 'collect the options into lists'
   return Object.keys(providers).map((provider) => {
     const addOption = (list, option, id) => {
-      if (!list.includes(option) && option) {
+      if (!list.some((item) => item.name === option) && option) {
         list.push({ name: option, id });
       }
     };
@@ -135,7 +135,6 @@ const getAllProviders = async () => {
     return newProvider;
   });
 };
-getAllProviders();
 
 export default { createNewProvider, getAllProviders };
 
