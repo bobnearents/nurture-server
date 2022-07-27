@@ -29,8 +29,8 @@ app.get('/', (req, res) => {
 });
 app.use('/zip-codes', zipRouter);
 app.use('/providers', providerRouter);
-app.use('/payment', paymentRouter);
-app.use('/service', serviceRouter);
+app.use('/paymentOptions', paymentRouter);
+app.use('/services', serviceRouter);
 
 app.listen(config.PORT, () => {
   console.log(`listening at port: ${config.PORT}`);

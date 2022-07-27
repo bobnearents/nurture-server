@@ -110,9 +110,9 @@ const getAllProviders = async () => {
   const providers = groupBy(sheetsProviders, 'name');
   //go through each name and 'collect the options into lists'
   return Object.keys(providers).map((provider) => {
-    const addOption = (list, option) => {
+    const addOption = (list, option, id) => {
       if (!list.includes(option) && option) {
-        list.push(option);
+        list.push({ name: option, id });
       }
     };
     const prov = providers[provider];
@@ -120,9 +120,9 @@ const getAllProviders = async () => {
     const certifications = [];
     const paymentOptions = [];
     prov.forEach((tuple) => {
-      addOption(services, tuple.service);
-      addOption(certifications, tuple.cert);
-      addOption(paymentOptions, tuple.payment);
+      addOption(services, tuple.service, tuple.service_id);
+      addOption(certifications, tuple.cert, tuple.certification_id);
+      addOption(paymentOptions, tuple.payment, tuple.payment_id);
     });
     //then merge into one provider
     const { service, cert, payment, ...newProviderNoOptions } = prov[0];
@@ -135,6 +135,7 @@ const getAllProviders = async () => {
     return newProvider;
   });
 };
+getAllProviders();
 
 export default { createNewProvider, getAllProviders };
 

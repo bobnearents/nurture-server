@@ -93,7 +93,7 @@ class CrudFunctions {
 
 const getAllProviders = async () => {
   const { rows } = await handleQuery(
-    `SELECT provider.*, service.name AS "service", payment.name AS "payment", certification.name AS "cert" 
+    `SELECT provider.*, service.name AS "service", service_id, payment.name AS "payment", payment_id, certification.name AS "cert", certification_id
   FROM provider LEFT JOIN provider_service ON provider.id = provider_service.provider_id
         LEFT JOIN service ON provider_service.service_id = service.id
     LEFT JOIN provider_payment ON provider.id = provider_payment.provider_id
