@@ -1,5 +1,5 @@
 import config from './config.js';
-const connectionString = config.DATABASE_URL;
+
 let connection = {
   migrationPattern: './db/migrations/*',
   driver: 'pg',
@@ -13,7 +13,10 @@ if (config.NODE_ENV === 'production') {
   connection = {
     migrationPattern: './db/migrations/*',
     driver: 'pg',
-    connectionString
+    connectionString: config.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false
+    }
   };
   console.log(connection);
 }

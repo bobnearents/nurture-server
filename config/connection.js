@@ -10,7 +10,12 @@ let connection = new Pool({
   database: config.DB_NAME
 });
 if (config.NODE_ENV === 'production') {
-  connection = new Pool({ connectionString: config.DATABASE_URL });
+  connection = new Pool({
+    connectionString: config.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false
+    }
+  });
 }
 
 export default connection;
