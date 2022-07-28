@@ -41,18 +41,6 @@ const createNewProvider = async (provider) => {
   });
 };
 
-const createProvidersFromSheets = async () => {
-  let count = 0;
-  console.log('getting providers...');
-  const providers = await getProviders();
-  await providers.forEach((provider, index) => {
-    if (!index) return;
-    createNewProvider(provider);
-    count++;
-  });
-  console.log(`creating ${count} providers...`);
-};
-
 const groupBy = function (data, key) {
   // `data` is an array of objects, `key` is the key (or property accessor) to group by
   // reduce runs this anonymous function on each element of `data` (the `item` parameter,
@@ -106,5 +94,3 @@ const getAllProviders = async () => {
 };
 
 export default { createNewProvider, getAllProviders };
-
-export { createProvidersFromSheets };

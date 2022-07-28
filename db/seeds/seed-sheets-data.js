@@ -1,3 +1,3 @@
-import { createProvidersFromSheets } from '../../src/provider/provider-service.js';
+import migrateProvidersFromSheets from '../../src/sheets/sheets-service.js';
 console.log('getting data from google sheets, and then inserting into db...');
-createProvidersFromSheets();
+migrateProvidersFromSheets();
