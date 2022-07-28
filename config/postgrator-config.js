@@ -9,7 +9,7 @@ let connection = {
   username: config.DB_USERNAME,
   password: config.DB_PASSWORD
 };
-
+console.log(config);
 if (config.NODE_ENV === 'production') {
   connection = {
     migrationPattern: './db/migrations/*',
