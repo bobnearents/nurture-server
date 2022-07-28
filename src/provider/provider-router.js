@@ -12,8 +12,8 @@ providerRouter.route('/:id/').get(async (req, res) => {
   res.send(rows);
 });
 providerRouter.route('/add').post(async (req, res) => {
-  const { provider } = req.body;
-  const rows = await providerService.createNewProvider(provider);
+  const { newProvider } = req.body;
+  const rows = await providerService.createNewProvider(newProvider);
   res.send(rows);
 });
 

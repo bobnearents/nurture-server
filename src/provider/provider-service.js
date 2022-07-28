@@ -37,7 +37,7 @@ const certList = [
   'Peer Breastfeeding Counselor'
 ];
 
-const createNewProvider = async (provider) => {
+const createNewProviderFromSheets = async (provider) => {
   const { id } = await crudService.provider.add(provider.contact);
   Object.entries(provider.services).forEach((entry, i) => {
     const serviceId = serviceList.indexOf(entry[0]) + 1;
@@ -47,7 +47,6 @@ const createNewProvider = async (provider) => {
         service_id: serviceId,
         provider_description: provider.description
       });
-      //   addProviderServices(id, provider.services, provider.serviceDescription);
     }
   });
   Object.entries(provider.paymentOptions).forEach((entry, i) => {
@@ -58,7 +57,6 @@ const createNewProvider = async (provider) => {
         payment_id: paymentId,
         provider_description: provider.description
       });
-      //   addProviderServices(id, provider.services, provider.serviceDescription);
     }
   });
   Object.entries(provider.certifications).forEach((entry, i) => {
@@ -69,6 +67,46 @@ const createNewProvider = async (provider) => {
         certification_id: certId
       });
     }
+  });
+};
+
+/**
+ *
+ * @param {*} provider @example
+ *
+ * {
+ *  contact: {
+ *    name: 'jane doe',
+ *    overview: 'cool stuff'
+ *  },
+ *  services: [], //list of service id's
+ *  certifications: [], //list of certification id's
+ *  paymentOptions: [] //list of payment id's
+ * }
+ *
+ */
+const createNewProvider = async (provider) => {
+  const { id } = await crudService.provider.add(provider.contact);
+  provider.services.forEach((serviceId) => {
+    crudService.provider_service.add({
+      provider_id: id,
+      service_id: serviceId,
+      provider_description: provider.description
+    });
+  });
+  provider.certifications.forEach((certId) => {
+    crudService.provider_certification.add({
+      provider_id: id,
+      certification_id: certId,
+      provider_description: provider.description
+    });
+  });
+  provider.paymentOptions.forEach((paymentId) => {
+    crudService.provider_payment.add({
+      provider_id: id,
+      payment_id: paymentId,
+      provider_description: provider.description
+    });
   });
 };
 
