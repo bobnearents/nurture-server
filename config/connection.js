@@ -9,7 +9,7 @@ let connection = new Pool({
   password: config.DB_PASSWORD,
   database: config.DB_NAME
 });
-if (config.NODE_ENV === 'production') {
+if (true) {
   connection = new Pool({
     connectionString: config.DATABASE_URL,
     ssl: {

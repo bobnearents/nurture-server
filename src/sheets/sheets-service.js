@@ -156,7 +156,6 @@ const migrateProvidersFromSheets = async () => {
   let count = 0;
   console.log('getting providers...');
   const providers = await getProviders();
-  console.log(providers);
   await providers.forEach((provider, index) => {
     if (!index) return;
     createNewProviderFromSheets(provider);

@@ -17,6 +17,7 @@ import getProviders from '../sheets/sheets-service.js';
  *
  */
 const createNewProvider = async (provider) => {
+  console.log(provider);
   const { id } = await crudService.provider.add(provider.contact);
   provider.services.forEach((serviceId) => {
     crudService.provider_service.add({

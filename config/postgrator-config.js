@@ -1,6 +1,5 @@
 import config from './config.js';
-
-let connection = {
+export default {
   migrationPattern: './db/migrations/*',
   driver: 'pg',
   host: config.DB_HOST,
@@ -9,16 +8,3 @@ let connection = {
   username: config.DB_USERNAME,
   password: config.DB_PASSWORD
 };
-if (config.NODE_ENV === 'production') {
-  connection = {
-    migrationPattern: './db/migrations/*',
-    driver: 'pg',
-    connectionString: config.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false
-    }
-  };
-  console.log(connection);
-}
-
-export default connection;

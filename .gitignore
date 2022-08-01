@@ -2,6 +2,7 @@
  
 # dependencies
 /node_modules
+/config/postgrator-production-config.js
 keys.json
 credentials.json
 package-lock.json
