@@ -16,7 +16,7 @@
     "postrefresh": "npm run seed-sheets",
     "prerefresh-production": "npm run migrate-production 0 && npm run migrate-production",
     "refresh-production": "npm run seed-production",
-    "postrefresh-production": "npm run seed-sheets"
+    "postrefresh-production": "NODE_ENV=production npm run seed-sheets"
   },
   "author": "",
   "license": "ISC",

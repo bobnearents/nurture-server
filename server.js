@@ -13,7 +13,7 @@ app.use(function (req, res, next) {
   res.header(
     'Access-Control-Allow-Origin',
     `${
-      config.NODE_ENV
+      config.NODE_ENV === 'production'
         ? 'https://nurture-client.herokuapp.com'
         : 'http://localhost:3000'
     }`

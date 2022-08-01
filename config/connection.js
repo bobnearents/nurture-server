@@ -2,20 +2,19 @@ import pg from 'pg';
 const { Pool } = pg;
 import config from './config.js';
 
-let connection = new Pool({
-  host: config.DB_URL,
-  user: config.DB_USERNAME,
-  port: config.DB_PORT,
-  password: config.DB_PASSWORD,
-  database: config.DB_NAME
-});
-if (true) {
-  connection = new Pool({
-    connectionString: config.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false
-    }
-  });
-}
+const connection =
+  config.NODE_ENV === 'production'
+    ? {
+        connectionString: config.DATABASE_URL,
+        ssl: {
+          rejectUnauthorized: false
+        }
+      }
+    : {
+        user: config.DB_USERNAME,
+        port: config.DB_PORT,
+        password: config.DB_PASSWORD,
+        database: config.DB_NAME
+      };
 
-export default connection;
+export default new Pool(connection);
