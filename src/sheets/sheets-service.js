@@ -120,7 +120,8 @@ const certList = [
 ];
 
 const createNewProviderFromSheets = async (provider) => {
-  const { id } = await crudService.provider.add(provider.contact);
+  const response = await crudService.provider.add(provider.contact);
+  const { id } = response.rows[0];
   Object.entries(provider.services).forEach((entry, i) => {
     const serviceId = serviceList.indexOf(entry[0]) + 1;
     if (entry[1] && serviceId > 0) {

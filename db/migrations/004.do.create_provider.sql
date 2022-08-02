@@ -2,7 +2,7 @@ CREATE TABLE provider (
     id SERIAL PRIMARY KEY NOT NULL,
     date_created TIMESTAMP DEFAULT now() NOT NULL,
     overview TEXT,
-    name TEXT NOT NULL,
+    name TEXT NOT NULL UNIQUE,
     business_name TEXT,
     address_1 TEXT,
     address_2 TEXT,

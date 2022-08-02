@@ -13,7 +13,7 @@ const handleQuery = async (query, params) => {
   try {
     result = await client.query(query, params);
   } catch (error) {
-    console.log(error);
+    console.log(error.detail);
     result = { error };
   } finally {
     client.release();
@@ -71,10 +71,15 @@ class CrudFunctions {
    * @returns {Object} the item from the table
    */
   async getOne(id) {
-    const { rows } = await handleQuery(
-      `SELECT * FROM ${this.table} WHERE ID=${id}`
-    );
-    return rows;
+    try {
+      const { rows } = await handleQuery(
+        `SELECT * FROM ${this.table} WHERE ID=${id}`
+      );
+      return rows;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
   }
 
   /**
@@ -87,7 +92,7 @@ class CrudFunctions {
       buildQuery(`INSERT INTO ${this.table}`, Object.keys(item)),
       Object.values(item)
     );
-    return res.rows[0];
+    return res;
   }
 }
 

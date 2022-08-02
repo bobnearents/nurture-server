@@ -6,15 +6,13 @@ providerRouter.route('/').get(async (req, res) => {
   const rows = await providerService.getAllProviders();
   res.send(rows);
 });
-providerRouter.route('/:id/').get(async (req, res) => {
-  const { id } = req.params;
-  const rows = await providerService.getProviderById(id);
-  res.send(rows);
-});
 providerRouter.route('/add').post(async (req, res) => {
   const { newProvider } = req.body;
   const rows = await providerService.createNewProvider(newProvider);
-  res.send(rows);
+  if (!rows || rows.error) {
+    res.statusCode = 404;
+    res.send({ error: rows ? rows.error.constraint : 'there was an error' });
+  } else res.send(rows);
 });
 
 export default providerRouter;
