@@ -1,6 +1,6 @@
 INSERT INTO payment (name)
 VALUES
-    ('Free or Pro Bono Service'),
+    ('Free or Pro Bono'),
     ('Private Insurance'),
     ('Medicaid'),
     ('FAMIS'),
