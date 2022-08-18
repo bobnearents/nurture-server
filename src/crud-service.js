@@ -96,7 +96,7 @@ class CrudFunctions {
   }
 }
 
-const getAllProviders = async () => {
+const getAllProviders = async (id) => {
   const { rows } = await handleQuery(
     `SELECT provider.*, service.name AS "service", service_id, payment.name AS "payment", payment_id, certification.name AS "cert", certification_id
   FROM provider LEFT JOIN provider_service ON provider.id = provider_service.provider_id
@@ -105,10 +105,12 @@ const getAllProviders = async () => {
         LEFT JOIN payment ON provider_payment.payment_id = payment.id
     LEFT JOIN provider_certification ON provider.id = provider_certification.provider_id
         LEFT JOIN certification ON provider_certification.certification_id = certification.id
-    ORDER BY provider.id`
+    ${id ? `WHERE provider.id =${id}` : 'ORDER BY provider.id'}`
   );
   return rows;
 };
+
+const getProviderById = async (id) => await getAllProviders(id);
 
 //write them all out like this, so we still get access to the jsdocs
 const service = new CrudFunctions('service');
@@ -127,5 +129,6 @@ export default {
   provider_certification,
   provider_payment,
   provider_service,
-  getAllProviders
+  getAllProviders,
+  getProviderById
 };

@@ -65,6 +65,50 @@ const createNewProvider = async (provider) => {
   });
 };
 
+const buildProviderData = (provider) => {
+  function formatPhoneNumber(phoneNumberString) {
+    const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
+    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
+    if (match) {
+      return '(' + match[1] + ') ' + match[2] + '-' + match[3];
+    }
+    return null;
+  }
+  const addOption = (list, option, id) => {
+    if (!list.some((item) => item.name === option) && option) {
+      list.push({ name: option, id });
+    }
+  };
+
+  const services = [];
+  const certifications = [];
+  const paymentOptions = [];
+  provider.forEach((tuple) => {
+    addOption(services, tuple.service, tuple.service_id);
+    addOption(certifications, tuple.cert, tuple.certification_id);
+    addOption(paymentOptions, tuple.payment, tuple.payment_id);
+  });
+  //then merge into one provider
+  const { service, cert, payment, ...newProviderNoOptions } = provider[0];
+  const newProvider = {
+    ...newProviderNoOptions,
+    services,
+    certifications,
+    paymentOptions
+  };
+  newProvider.phone = formatPhoneNumber(newProvider.phone);
+  //the id's are unnecessary and nonsensical, so we get rid of them before we send it off to the client
+  const { service_id, payment_id, certification_id, ...providerFinalForm } =
+    newProvider;
+  return providerFinalForm;
+};
+
+const getProviderById = async (id) => {
+  const databaseProvider = await crudService.getProviderById(id);
+
+  return buildProviderData(databaseProvider);
+};
+
 /**
  * This function takes all the joined providers from the db and groups all the duplicate entries by name. We do it this way in order to handle
  * multiple many-to-many relationships cleanly. after all the duplicate entries are grouped by name, we then build the 'options arrays', these
@@ -104,44 +148,13 @@ const getAllProviders = async () => {
       return storage;
     }, {}); // {} is the initial value of the storage
   };
-  function formatPhoneNumber(phoneNumberString) {
-    const cleaned = ('' + phoneNumberString).replace(/\D/g, '');
-    const match = cleaned.match(/^(\d{3})(\d{3})(\d{4})$/);
-    if (match) {
-      return '(' + match[1] + ') ' + match[2] + '-' + match[3];
-    }
-    return null;
-  }
   //group all duplicate providers by name
   const providers = groupBy(databaseProvidersWithDuplicates, 'name');
 
   //go through each name and 'collect the options into lists'
-  return Object.keys(providers).map((provider) => {
-    const addOption = (list, option, id) => {
-      if (!list.some((item) => item.name === option) && option) {
-        list.push({ name: option, id });
-      }
-    };
-    const prov = providers[provider];
-    const services = [];
-    const certifications = [];
-    const paymentOptions = [];
-    prov.forEach((tuple) => {
-      addOption(services, tuple.service, tuple.service_id);
-      addOption(certifications, tuple.cert, tuple.certification_id);
-      addOption(paymentOptions, tuple.payment, tuple.payment_id);
-    });
-    //then merge into one provider
-    const { service, cert, payment, ...newProviderNoOptions } = prov[0];
-    const newProvider = {
-      ...newProviderNoOptions,
-      services,
-      certifications,
-      paymentOptions
-    };
-    newProvider.phone = formatPhoneNumber(newProvider.phone);
-    return newProvider;
-  });
+  return Object.keys(providers).map((provider) =>
+    buildProviderData(providers[provider])
+  );
 };
 
-export default { createNewProvider, getAllProviders };
+export default { createNewProvider, getAllProviders, getProviderById };
