@@ -34,7 +34,11 @@ const trimDataTable = (response) => {
       services: {},
       certifications: {},
       formData: {},
-      visibility: {}
+      demographic: {
+        ethnicity: {},
+        patientDemographic: {},
+        setting: {}
+      }
     };
     headers.main.forEach((header, i) => {
       const headerName = header || headers.fallback[i];
@@ -43,26 +47,18 @@ const trimDataTable = (response) => {
       else if (i < 19) {
         if (provider[i]) newProvider.contact[headerName] = provider[i];
       } else if (i < 40) newProvider.certifications[headerName] = provider[i];
-      else if (i < 43) newProvider.visibility[headerName] = provider[i];
+      else if (i < 43) newProvider.contact[headerName] = !!provider[i];
       else if (i < 51) newProvider.paymentOptions[headerName] = provider[i];
+      else if (i < 53) console.log('i:', i);
+      else if (i < 63)
+        newProvider.demographic.ethnicity[headerName] = provider[i];
+      else if (i < 65) newProvider.demographic[headerName] = provider[i];
+      else if (i < 74)
+        newProvider.demographic.setting[headerName] = provider[i];
+      else if (i < 83)
+        newProvider.demographic.patientDemographic[headerName] = provider[i];
     });
-    let vis = true;
-
-    Object.values(newProvider.visibility).forEach((param, i) => {
-      if (i === 0) {
-        //if it needs review then make it not visible
-        if (param) vis = false;
-      } else if (
-        param != 'Yes' &&
-        param != 'Currently Practicing' &&
-        param != 'Permission to share'
-      ) {
-        vis = false;
-      }
-    });
-
-    newProvider.visibility = vis;
-    if (vis) return newProvider;
+    return newProvider;
   });
   //only send a provider if it should be visible and has a name provided
   return providers.filter((provider) => {
@@ -119,9 +115,76 @@ const certList = [
   'Peer Breastfeeding Counselor'
 ];
 
+const ethnicityList = [
+  'Native American or Alaska Native',
+  'East Asian or Asian American',
+  'South Asian or Indian American',
+  'Black or African American',
+  'Hispanic, Latino, Latina, or Latinx',
+  'Middle Eastern or Northern African',
+  'Native Hawaiian or Pacific Islander',
+  'White'
+];
+
+const patientDemographicList = [
+  'Native American or Alaska Native',
+  'Asian American or Pacific Islander',
+  'Black or African-American',
+  'Hispanic or Latinx',
+  'LGBTQIA',
+  'Low Income Families/Residents',
+  'White'
+];
+
+const settingList = [
+  'Hospital',
+  'Birth Center',
+  'Free-standing Clinic',
+  'Private Practice',
+  'Non-profit Agency',
+  'Government Agency',
+  'Client/Patient Home',
+  'Virtual Practice'
+];
+
 const createNewProviderFromSheets = async (provider) => {
   const response = await crudService.provider.add(provider.contact);
   const { id } = response.rows[0];
+  const { ethnicity, setting, patientDemographic, ...demographicProfile } =
+    provider.demographic;
+  const demographicResponse = await crudService.provider_demographic.add({
+    ...demographicProfile,
+    provider_id: id
+  });
+  const { demographicId = id } = demographicResponse.rows[0];
+  Object.entries(ethnicity).forEach((entry, i) => {
+    const ethnicityId = ethnicityList.indexOf(entry[0]) + 1;
+    if (entry[1] && ethnicityId > 0) {
+      crudService.provider_ethnicity.add({
+        demographic_id: demographicId,
+        ethnicity_id: ethnicityId
+      });
+    }
+  });
+  Object.entries(setting).forEach((entry, i) => {
+    const settingId = settingList.indexOf(entry[0]) + 1;
+    if (entry[1] && settingId > 0) {
+      crudService.provider_setting.add({
+        demographic_id: demographicId,
+        setting_id: settingId
+      });
+    }
+  });
+  Object.entries(patientDemographic).forEach((entry, i) => {
+    const patientDemographicId = patientDemographicList.indexOf(entry[0]) + 1;
+    if (entry[1] && patientDemographicId > 0) {
+      crudService.provider_patient_demographic.add({
+        demographic_id: demographicId,
+        patient_id: patientDemographicId
+      });
+    }
+  });
+
   Object.entries(provider.services).forEach((entry, i) => {
     const serviceId = serviceList.indexOf(entry[0]) + 1;
     if (entry[1] && serviceId > 0) {
@@ -162,7 +225,7 @@ const migrateProvidersFromSheets = async () => {
     createNewProviderFromSheets(provider);
     count++;
   });
-  console.log(`creating ${count} providers...`);
+  console.log(`created ${count} providers...`);
 };
 
 export default migrateProvidersFromSheets;

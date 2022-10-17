@@ -41,7 +41,6 @@ const createNewProvider = async (provider) => {
   const response = await crudService.provider.add(provider.contact);
   if (response.error) return { error: response.error.detail };
   const { id } = response.rows[0];
-  console.log(id);
   provider.services.forEach((serviceId) => {
     crudService.provider_service.add({
       provider_id: id,
@@ -128,8 +127,10 @@ const getProviderById = async (id) => {
  *  paymentOptions: [{name: 'FAMIS', id: 5}]
  * }
  */
-const getAllProviders = async () => {
-  const databaseProvidersWithDuplicates = await crudService.getAllProviders();
+const getAllProviders = async (isPendingProviders) => {
+  const databaseProvidersWithDuplicates = await crudService.getAllProviders(
+    isPendingProviders
+  );
   const groupBy = function (data, key) {
     // `data` is an array of objects, `key` is the key (or property accessor) to group by
     // reduce runs this anonymous function on each element of `data` (the `item` parameter,
@@ -149,12 +150,14 @@ const getAllProviders = async () => {
     }, {}); // {} is the initial value of the storage
   };
   //group all duplicate providers by name
-  const providers = groupBy(databaseProvidersWithDuplicates, 'name');
+  const providersNoOptions = groupBy(databaseProvidersWithDuplicates, 'name');
+  const providers = [];
+  //go through each name and collect the options into lists
+  Object.keys(providersNoOptions).forEach((provider) => {
+    providers.push(buildProviderData(providersNoOptions[provider]));
+  });
 
-  //go through each name and 'collect the options into lists'
-  return Object.keys(providers).map((provider) =>
-    buildProviderData(providers[provider])
-  );
+  return providers;
 };
 
 export default { createNewProvider, getAllProviders, getProviderById };
