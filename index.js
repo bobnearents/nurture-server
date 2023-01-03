@@ -17,7 +17,7 @@ app.use(function (req, res, next) {
     `${
       config.NODE_ENV === 'production'
         ? 'https://nurture-client.herokuapp.com'
-        : 'http://localhost:3000'
+        : '*'
     }`
   );
   res.header(
