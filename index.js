@@ -5,7 +5,7 @@ import paymentRouter from './src/payment/payment-router.js';
 import serviceRouter from './src/service/service-router.js';
 import certificationRouter from './src/certification/certification-router.js';
 import adminRouter from './src/admin-router.js';
-import analyticsService from './src/analytics/analytics-service.js';
+// import analyticsService from './src/analytics/analytics-service.js';
 import express from 'express';
 const app = express();
 
