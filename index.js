@@ -37,7 +37,7 @@ app.use('/providers', providerRouter);
 app.use('/paymentOptions', paymentRouter);
 app.use('/services', serviceRouter);
 app.use('/certifications', certificationRouter);
-app.use('/admin', adminRouter);
+// app.use('/admin', adminRouter);
 
 app.listen(config.PORT, () => {
   console.log(`listening at port: ${config.PORT}`);
