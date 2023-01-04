@@ -16,7 +16,7 @@ app.use(function (req, res, next) {
     'Access-Control-Allow-Origin',
     `${
       config.NODE_ENV === 'production'
-        ? 'https://nurture-client.onrender.com/'
+        ? 'https://nurture-client.onrender.com'
         : '*'
     }`
   );

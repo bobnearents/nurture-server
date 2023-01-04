@@ -9,7 +9,7 @@
     "migrate": "postgrator --config ./config/postgrator-config.js",
     "migrate-production": "postgrator --config ./config/postgrator-production-config.js",
     "seed": "psql -U postgres -d nurture -c \"BEGIN TRANSACTION;\" -f ./db/seeds/seed.certification.sql -f ./db/seeds/seed.payment.sql -f ./db/seeds/seed.service.sql -f ./db/seeds/seed.ethnicity.sql -f ./db/seeds/seed.setting.sql -f ./db/seeds/seed.patient_demographic.sql -c \"COMMIT;\"",
-    "seed-production": "for f in ./db/seeds/seed.*.sql; do (cat \"${f}\"; echo) | heroku pg:psql; done",
+    "seed-production": "PGPASSWORD=q3M4wlvo3iDKXVIWGDTOJnX5Kcwa7i2h psql -h dpg-ceq9akqrrk0eo0t3dpq0-a.oregon-postgres.render.com -U nurture_user -d nurture -c \"BEGIN TRANSACTION;\" -f ./db/seeds/seed.certification.sql -f ./db/seeds/seed.payment.sql -f ./db/seeds/seed.service.sql -f ./db/seeds/seed.ethnicity.sql -f ./db/seeds/seed.setting.sql -f ./db/seeds/seed.patient_demographic.sql -c \"COMMIT;\"",
     "seed-sheets": "node ./db/seeds/seed-sheets-data.js",
     "prerefresh": "npm run migrate 0 && npm run migrate",
     "refresh": "npm run seed",
