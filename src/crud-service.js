@@ -106,6 +106,18 @@ class CrudFunctions {
       `UPDATE ${this.table} SET ${queryString} WHERE id = ${id}`
     );
   }
+
+  async delete(id) {
+    try {
+      const { rows } = await handleQuery(
+        `DELETE FROM ${this.table} WHERE ID=${id}`
+      );
+      return rows;
+    } catch (error) {
+      console.error(error);
+      return error;
+    }
+  }
 }
 
 const getAllProviders = async (unreviewedProviders = false, id) => {

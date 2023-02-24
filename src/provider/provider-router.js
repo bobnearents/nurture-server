@@ -7,6 +7,7 @@ providerRouter
   .route('/')
   .get(async (req, res) => {
     const rows = await providerService.getAllProviders();
+    console.log(rows);
     res.send(rows);
   })
   .post(async (req, res) => {
@@ -35,6 +36,12 @@ providerRouter
     const { patchBody } = req.body;
     console.log(patchBody, id);
     const response = await crudService.provider.update(id, patchBody);
+    res.send(response);
+  })
+  .delete(async (req, res) => {
+    const { id } = req.params;
+
+    const response = await crudService.provider.delete(id);
     res.send(response);
   });
 
