@@ -100,8 +100,9 @@ class CrudFunctions {
     const flattenedPatchBody = Object.entries(patchBody);
     let queryString = '';
     flattenedPatchBody.forEach((body, index) => {
-      queryString += `${body[0]} = ${body[1]}`;
+      queryString += `${body[0]} = '${body[1]}'`;
     });
+
     const res = await handleQuery(
       `UPDATE ${this.table} SET ${queryString} WHERE id = ${id}`
     );

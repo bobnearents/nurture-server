@@ -1,13 +1,15 @@
 import express from 'express';
 import crudService from '../crud-service.js';
-import providerService from './provider-service.js';
-const providerRouter = express.Router();
 
+import providerService from './provider-service.js';
+
+const providerRouter = express.Router();
 providerRouter
   .route('/')
   .get(async (req, res) => {
-    const rows = await providerService.getAllProviders();
-    console.log(rows);
+    const { isPending } = req.query;
+    const rows = await providerService.getAllProviders(isPending);
+
     res.send(rows);
   })
   .post(async (req, res) => {
@@ -16,7 +18,9 @@ providerRouter
     if (!rows || rows.error) {
       res.statusCode = 404;
       res.send({ error: rows ? rows.error.constraint : 'there was an error' });
-    } else res.send(rows);
+    } else {
+      res.send({ id: rows });
+    }
   });
 providerRouter
   .route('/:id')
@@ -34,7 +38,6 @@ providerRouter
   .patch(async (req, res) => {
     const { id } = req.params;
     const { patchBody } = req.body;
-    console.log(patchBody, id);
     const response = await crudService.provider.update(id, patchBody);
     res.send(response);
   })
@@ -44,5 +47,10 @@ providerRouter
     const response = await crudService.provider.delete(id);
     res.send(response);
   });
+providerRouter.route('/:id/:hash').get(async (req, res) => {
+  const { id, hash } = req.params;
+  const rows = await providerService.getProviderById(id);
+  res.send(hash === rows.edit_hash);
+});
 
 export default providerRouter;

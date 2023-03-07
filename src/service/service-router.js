@@ -12,7 +12,6 @@ serviceRouter
   })
   .post(async (req, res) => {
     const { newService } = req.body;
-
     const rows = await crudService.service.add(newService);
     res.send(rows);
   });

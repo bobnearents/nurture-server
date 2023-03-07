@@ -3,6 +3,7 @@ CREATE TABLE provider (
     date_created TIMESTAMP DEFAULT now() NOT NULL,
     overview TEXT,
     logo TEXT,
+    profile_photo TEXT,
     name TEXT NOT NULL UNIQUE,
     business_name TEXT,
     address_1 TEXT,
@@ -17,5 +18,6 @@ CREATE TABLE provider (
     role TEXT,
     needs_review BOOLEAN DEFAULT TRUE,
     currently_practicing BOOLEAN,
-    shareable BOOLEAN
+    shareable BOOLEAN,
+    edit_hash TEXT
 );

@@ -62,6 +62,7 @@ const createNewProvider = async (provider) => {
       provider_description: provider.description
     });
   });
+  return id;
 };
 
 const buildProviderData = (provider) => {
