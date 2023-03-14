@@ -36,30 +36,29 @@ import crudService from '../crud-service.js';
  *
  */
 const createNewProvider = async (provider) => {
-  if (!provider.contact || !provider.contact.name)
-    return { error: 'no name given' };
-  const response = await crudService.provider.add(provider.contact);
+  if (!provider.general.name) return { error: 'no name given' };
+  const response = await crudService.provider.add(provider.general);
   if (response.error) return { error: response.error.detail };
   const { id } = response.rows[0];
-  provider.services.forEach((serviceId) => {
+  provider.services.forEach((service) => {
     crudService.provider_service.add({
       provider_id: id,
-      service_id: serviceId,
-      provider_description: provider.description
+      service_id: service,
+      provider_description: service.description
     });
   });
-  provider.certifications.forEach((certId) => {
+  provider.certifications.forEach((cert) => {
     crudService.provider_certification.add({
       provider_id: id,
-      certification_id: certId,
-      provider_description: provider.description
+      certification_id: cert,
+      provider_description: cert.description
     });
   });
-  provider.paymentOptions.forEach((paymentId) => {
+  provider.paymentOptions.forEach((payment) => {
     crudService.provider_payment.add({
       provider_id: id,
-      payment_id: paymentId,
-      provider_description: provider.description
+      payment_id: payment,
+      provider_description: payment.description
     });
   });
   return id;

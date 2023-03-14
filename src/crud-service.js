@@ -14,7 +14,7 @@ const handleQuery = async (query, params) => {
   try {
     result = await client.query(query, params);
   } catch (error) {
-    console.log(error.detail);
+    console.log(error);
     result = { error };
   } finally {
     client.release();
@@ -93,6 +93,7 @@ class CrudFunctions {
       buildQuery(`INSERT INTO ${this.table}`, Object.keys(item)),
       Object.values(item)
     );
+
     return res;
   }
 
@@ -101,8 +102,10 @@ class CrudFunctions {
     let queryString = '';
     flattenedPatchBody.forEach((body, index) => {
       queryString += `${body[0]} = '${body[1]}'`;
+      if (index != flattenedPatchBody.length - 1) {
+        queryString += ', ';
+      }
     });
-
     const res = await handleQuery(
       `UPDATE ${this.table} SET ${queryString} WHERE id = ${id}`
     );

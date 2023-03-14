@@ -11,10 +11,10 @@ const connection =
         }
       }
     : {
-        connectionString: config.DATABASE_URL,
-        ssl: {
-          rejectUnauthorized: false
-        }
+        user: config.DB_USERNAME,
+        port: config.DB_PORT,
+        password: config.DB_PASSWORD,
+        database: config.DB_NAME
       };
 
 export default new Pool(connection);
