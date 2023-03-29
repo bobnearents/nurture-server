@@ -49,7 +49,6 @@ const trimDataTable = (response) => {
       } else if (i < 40) newProvider.certifications[headerName] = provider[i];
       else if (i < 43) newProvider.contact[headerName] = !!provider[i];
       else if (i < 51) newProvider.paymentOptions[headerName] = provider[i];
-      else if (i < 53) console.log('i:', i);
       else if (i < 63)
         newProvider.demographic.ethnicity[headerName] = provider[i];
       else if (i < 65) newProvider.demographic[headerName] = provider[i];
