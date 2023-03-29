@@ -6,5 +6,8 @@ export default {
   port: config.DB_PORT,
   database: config.DB_NAME,
   username: config.DB_USERNAME,
-  password: config.DB_PASSWORD
+  password: config.DB_PASSWORD,
+  ssl: {
+    rejectUnauthorized: false
+  }
 };
