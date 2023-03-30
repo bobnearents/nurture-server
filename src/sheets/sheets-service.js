@@ -13,7 +13,7 @@ import crudService from '../crud-service.js';
 const jwtClient = new google.auth.JWT(
   config.CLIENT_EMAIL,
   null,
-  config.PRIVATE_KEY, //sanitize the key since heroku escapes out the \n to \\n https://stackoverflow.com/questions/39492587/escaping-issue-with-firebase-privatekey-as-a-heroku-config-variable
+  config.PRIVATE_KEY.replace(/\\n/g, '\n'), //sanitize the key since heroku escapes out the \n to \\n https://stackoverflow.com/questions/39492587/escaping-issue-with-firebase-privatekey-as-a-heroku-config-variable
   ['https://www.googleapis.com/auth/spreadsheets']
 );
 
@@ -75,6 +75,7 @@ const getProviders = async () => {
     const data = trimDataTable(sheetsResponse);
     return data;
   } catch (err) {
+    console.log(err);
     return err;
   }
 };
