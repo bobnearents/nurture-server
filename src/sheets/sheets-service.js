@@ -1,4 +1,5 @@
 import { google } from 'googleapis';
+import { sheets } from 'googleapis/build/src/apis/sheets/index.js';
 import config from '../../config/config.js';
 import crudService from '../crud-service.js';
 
@@ -71,7 +72,9 @@ const getProviders = async () => {
       spreadsheetId: config.SPREADSHEET_ID,
       range: config.SPREADSHEET_RANGE
     });
+    console.log(sheetsResponse);
     const data = trimDataTable(sheetsResponse);
+    console.log(data);
     return data;
   } catch (err) {
     return err;
@@ -224,7 +227,7 @@ const migrateProvidersFromSheets = async () => {
     createNewProviderFromSheets(provider);
     count++;
   });
-  console.log(`created ${count} providers...`);
+  return `created ${count} providers...`;
 };
 
 export default migrateProvidersFromSheets;
