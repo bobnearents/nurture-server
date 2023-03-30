@@ -72,9 +72,7 @@ const getProviders = async () => {
       spreadsheetId: config.SPREADSHEET_ID,
       range: config.SPREADSHEET_RANGE
     });
-    console.log(sheetsResponse);
     const data = trimDataTable(sheetsResponse);
-    console.log(data);
     return data;
   } catch (err) {
     return err;
@@ -225,7 +223,7 @@ const migrateProvidersFromSheets = async () => {
   await providers.forEach((provider, index) => {
     if (!index) return;
     console.log(provider);
-    createNewProviderFromSheets(provider);
+    // createNewProviderFromSheets(provider);
     count++;
   });
   return `created ${count} providers...`;
