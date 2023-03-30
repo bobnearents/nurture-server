@@ -224,6 +224,7 @@ const migrateProvidersFromSheets = async () => {
   const providers = await getProviders();
   await providers.forEach((provider, index) => {
     if (!index) return;
+    console.log(provider);
     createNewProviderFromSheets(provider);
     count++;
   });
