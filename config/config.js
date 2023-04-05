@@ -5,6 +5,7 @@ export default {
   PORT: process.env.PORT,
   NODE_ENV: process.env.NODE_ENV || 'development',
   ZIP_KEY: process.env.ZIP_KEY,
+  CLIENT_URL: process.env.CLIENT_URL,
   //variables to interact with db
   DATABASE_URL: process.env.DATABASE_URL,
   DB_HOST: process.env.DB_HOST,
