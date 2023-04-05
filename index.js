@@ -18,11 +18,7 @@ app.use(express.static('public'));
 app.use(function (req, res, next) {
   res.header(
     'Access-Control-Allow-Origin',
-    `${
-      config.NODE_ENV === 'production'
-        ? 'https://nurture-client.onrender.com'
-        : '*'
-    }`
+    `${config.NODE_ENV === 'production' ? config.CLIENT_URL : '*'}`
   );
   res.header(
     'Access-Control-Allow-Headers',
