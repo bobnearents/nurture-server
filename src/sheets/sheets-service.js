@@ -152,70 +152,70 @@ const createNewProviderFromSheets = async (provider) => {
   const response = await crudService.provider.add(provider.contact);
   const { id } = response.rows[0];
   console.log(id);
-  // const { ethnicity, setting, patientDemographic, ...demographicProfile } =
-  //   provider.demographic;
-  // const demographicResponse = await crudService.provider_demographic.add({
-  //   ...demographicProfile,
-  //   provider_id: id
-  // });
+  const { ethnicity, setting, patientDemographic, ...demographicProfile } =
+    provider.demographic;
+  const demographicResponse = await crudService.provider_demographic.add({
+    ...demographicProfile,
+    provider_id: id
+  });
   const { demographicId = id } = demographicResponse.rows[0];
-  // Object.entries(ethnicity).forEach((entry, i) => {
-  //   const ethnicityId = ethnicityList.indexOf(entry[0]) + 1;
-  //   if (entry[1] && ethnicityId > 0) {
-  //     crudService.provider_ethnicity.add({
-  //       demographic_id: demographicId,
-  //       ethnicity_id: ethnicityId
-  //     });
-  //   }
-  // });
-  // Object.entries(setting).forEach((entry, i) => {
-  //   const settingId = settingList.indexOf(entry[0]) + 1;
-  //   if (entry[1] && settingId > 0) {
-  //     crudService.provider_setting.add({
-  //       demographic_id: demographicId,
-  //       setting_id: settingId
-  //     });
-  //   }
-  // });
-  // Object.entries(patientDemographic).forEach((entry, i) => {
-  //   const patientDemographicId = patientDemographicList.indexOf(entry[0]) + 1;
-  //   if (entry[1] && patientDemographicId > 0) {
-  //     crudService.provider_patient_demographic.add({
-  //       demographic_id: demographicId,
-  //       patient_id: patientDemographicId
-  //     });
-  //   }
-  // });
+  Object.entries(ethnicity).forEach((entry, i) => {
+    const ethnicityId = ethnicityList.indexOf(entry[0]) + 1;
+    if (entry[1] && ethnicityId > 0) {
+      crudService.provider_ethnicity.add({
+        demographic_id: demographicId,
+        ethnicity_id: ethnicityId
+      });
+    }
+  });
+  Object.entries(setting).forEach((entry, i) => {
+    const settingId = settingList.indexOf(entry[0]) + 1;
+    if (entry[1] && settingId > 0) {
+      crudService.provider_setting.add({
+        demographic_id: demographicId,
+        setting_id: settingId
+      });
+    }
+  });
+  Object.entries(patientDemographic).forEach((entry, i) => {
+    const patientDemographicId = patientDemographicList.indexOf(entry[0]) + 1;
+    if (entry[1] && patientDemographicId > 0) {
+      crudService.provider_patient_demographic.add({
+        demographic_id: demographicId,
+        patient_id: patientDemographicId
+      });
+    }
+  });
 
-  // Object.entries(provider.services).forEach((entry, i) => {
-  //   const serviceId = serviceList.indexOf(entry[0]) + 1;
-  //   if (entry[1] && serviceId > 0) {
-  //     crudService.provider_service.add({
-  //       provider_id: id,
-  //       service_id: serviceId,
-  //       provider_description: provider.description
-  //     });
-  //   }
-  // });
-  // Object.entries(provider.paymentOptions).forEach((entry, i) => {
-  //   const paymentId = paymentList.indexOf(entry[0]) + 1;
-  //   if (entry[1] && paymentId > 0) {
-  //     crudService.provider_payment.add({
-  //       provider_id: id,
-  //       payment_id: paymentId,
-  //       provider_description: provider.description
-  //     });
-  //   }
-  // });
-  // Object.entries(provider.certifications).forEach((entry, i) => {
-  //   const certId = certList.indexOf(entry[0]) + 1;
-  //   if (entry[1] && certId > 0) {
-  //     crudService.provider_certification.add({
-  //       provider_id: id,
-  //       certification_id: certId
-  //     });
-  //   }
-  // });
+  Object.entries(provider.services).forEach((entry, i) => {
+    const serviceId = serviceList.indexOf(entry[0]) + 1;
+    if (entry[1] && serviceId > 0) {
+      crudService.provider_service.add({
+        provider_id: id,
+        service_id: serviceId,
+        provider_description: provider.description
+      });
+    }
+  });
+  Object.entries(provider.paymentOptions).forEach((entry, i) => {
+    const paymentId = paymentList.indexOf(entry[0]) + 1;
+    if (entry[1] && paymentId > 0) {
+      crudService.provider_payment.add({
+        provider_id: id,
+        payment_id: paymentId,
+        provider_description: provider.description
+      });
+    }
+  });
+  Object.entries(provider.certifications).forEach((entry, i) => {
+    const certId = certList.indexOf(entry[0]) + 1;
+    if (entry[1] && certId > 0) {
+      crudService.provider_certification.add({
+        provider_id: id,
+        certification_id: certId
+      });
+    }
+  });
 };
 
 const migrateProvidersFromSheets = async () => {
