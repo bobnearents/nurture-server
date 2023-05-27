@@ -9,6 +9,7 @@ import { upload } from './src/s3.js';
 
 // import analyticsService from './src/analytics/analytics-service.js';
 import express from 'express';
+import crudService from './src/crud-service.js';
 
 const app = express();
 

@@ -156,8 +156,11 @@ const getAllProviders = async (isPendingProviders) => {
   Object.keys(providersNoOptions).forEach((provider) => {
     providers.push(buildProviderData(providersNoOptions[provider]));
   });
-
   return providers;
 };
 
-export default { createNewProvider, getAllProviders, getProviderById };
+export default {
+  createNewProvider,
+  getAllProviders,
+  getProviderById
+};

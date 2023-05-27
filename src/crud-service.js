@@ -136,10 +136,21 @@ const getAllProviders = async (unreviewedProviders = false, id) => {
     ${
       id
         ? `WHERE provider.id =${id}`
-        : `WHERE provider.shareable = true AND provider.currently_practicing = true AND provider.needs_review = ${unreviewedProviders}`
+        : `WHERE provider.needs_review = ${unreviewedProviders}`
     }`
   );
+
   return rows;
+};
+
+const getProviderColumns = async () => {
+  const { rows } = await handleQuery(
+    `SELECT * FROM information_schema.columns WHERE table_name = 'provider'`
+  );
+
+  const columnList = rows.map((row) => row.column_name);
+
+  return columnList;
 };
 
 const getProviderById = async (id) => await getAllProviders(false, id);
@@ -176,5 +187,6 @@ export default {
   provider_setting,
   provider_patient_demographic,
   getAllProviders,
-  getProviderById
+  getProviderById,
+  getProviderColumns
 };

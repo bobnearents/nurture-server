@@ -9,7 +9,6 @@ providerRouter
   .get(async (req, res) => {
     const { isPending } = req.query;
     const rows = await providerService.getAllProviders(isPending);
-
     res.send(rows);
   })
   .post(async (req, res) => {
@@ -22,6 +21,11 @@ providerRouter
       res.send({ id: rows });
     }
   });
+providerRouter.route('/columns').get(async (req, res) => {
+  const rows = await crudService.getProviderColumns();
+
+  res.send(rows);
+});
 providerRouter
   .route('/:id')
   .get(async (req, res) => {

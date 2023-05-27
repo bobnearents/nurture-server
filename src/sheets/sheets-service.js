@@ -48,7 +48,7 @@ const trimDataTable = (response) => {
       else if (i < 19) {
         if (provider[i]) newProvider.contact[headerName] = provider[i];
       } else if (i < 40) newProvider.certifications[headerName] = provider[i];
-      else if (i < 43) newProvider.contact[headerName] = !!provider[i];
+      // else if (i < 43) newProvider.contact[headerName] = !!provider[i];
       else if (i < 51) newProvider.paymentOptions[headerName] = provider[i];
       else if (i < 63)
         newProvider.demographic.ethnicity[headerName] = provider[i];
@@ -149,6 +149,7 @@ const settingList = [
 ];
 
 const createNewProviderFromSheets = async (provider) => {
+  console.log(provider);
   const response = await crudService.provider.add(provider.contact);
   const { id } = response.rows[0];
   console.log(id);

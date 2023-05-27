@@ -10,8 +10,8 @@ adminRouter.route('/pending-providers').get(async (req, res) => {
 
 adminRouter.route('/reports').get(async (req, res) => {
   const { reportPeriod = 30 } = req.query;
-  const analyticsResponse = await analyticsService.getReports(reportPeriod);
-  res.send(analyticsResponse);
+  // const analyticsResponse = await analyticsService.getReports(reportPeriod);
+  res.send([]);
 });
 
 export default adminRouter;
