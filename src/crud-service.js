@@ -14,7 +14,7 @@ const handleQuery = async (query, params) => {
   try {
     result = await client.query(query, params);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
     result = { error };
   } finally {
     client.release();
@@ -101,7 +101,8 @@ class CrudFunctions {
     const flattenedPatchBody = Object.entries(patchBody);
     let queryString = '';
     flattenedPatchBody.forEach((body, index) => {
-      queryString += `${body[0]} = '${body[1]}'`;
+      const value = body[1] ? `'${body[1]}'` : null;
+      queryString += `${body[0]} = ${value}`;
       if (index != flattenedPatchBody.length - 1) {
         queryString += ', ';
       }
@@ -111,10 +112,10 @@ class CrudFunctions {
     );
   }
 
-  async delete(id) {
+  async delete(value, clause = 'ID') {
     try {
       const { rows } = await handleQuery(
-        `DELETE FROM ${this.table} WHERE ID=${id}`
+        `DELETE FROM ${this.table} WHERE ${clause}=${value}`
       );
       return rows;
     } catch (error) {

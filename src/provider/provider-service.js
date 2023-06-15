@@ -40,28 +40,63 @@ const createNewProvider = async (provider) => {
   const response = await crudService.provider.add(provider.general);
   if (response.error) return { error: response.error.detail };
   const { id } = response.rows[0];
-  provider.services.forEach((service) => {
-    crudService.provider_service.add({
-      provider_id: id,
-      service_id: service,
-      provider_description: service.description
+
+  provider.services &&
+    provider.services.forEach((service) => {
+      crudService.provider_service.add({
+        provider_id: id,
+        service_id: service,
+        provider_description: service.description
+      });
     });
-  });
-  provider.certifications.forEach((cert) => {
-    crudService.provider_certification.add({
-      provider_id: id,
-      certification_id: cert,
-      provider_description: cert.description
+  provider.certifications &&
+    provider.certifications.forEach((cert) => {
+      crudService.provider_certification.add({
+        provider_id: id,
+        certification_id: cert,
+        provider_description: cert.description
+      });
     });
-  });
-  provider.paymentOptions.forEach((payment) => {
-    crudService.provider_payment.add({
-      provider_id: id,
-      payment_id: payment,
-      provider_description: payment.description
+  provider.paymentOptions &&
+    provider.paymentOptions.forEach((payment) => {
+      crudService.provider_payment.add({
+        provider_id: id,
+        payment_id: payment,
+        provider_description: payment.description
+      });
     });
-  });
   return id;
+};
+
+const editProvider = async (provider, id) => {
+  const test = await crudService.provider.update(id, provider.general);
+  provider.services &&
+    crudService.provider_service.delete(id, 'provider_id') &&
+    provider.services.forEach((service) => {
+      crudService.provider_service.add({
+        provider_id: id,
+        service_id: service,
+        provider_description: service.description
+      });
+    });
+  provider.certifications &&
+    crudService.provider_certification.delete(id, 'provider_id') &&
+    provider.certifications.forEach((cert) => {
+      crudService.provider_certification.add({
+        provider_id: id,
+        certification_id: cert,
+        provider_description: cert.description
+      });
+    });
+  provider.paymentOptions &&
+    crudService.provider_payment.delete(id, 'provider_id') &&
+    provider.paymentOptions.forEach((payment) => {
+      crudService.provider_payment.add({
+        provider_id: id,
+        payment_id: payment,
+        provider_description: payment.description
+      });
+    });
 };
 
 const buildProviderData = (provider) => {
@@ -161,6 +196,7 @@ const getAllProviders = async (isPendingProviders) => {
 
 export default {
   createNewProvider,
+  editProvider,
   getAllProviders,
   getProviderById
 };

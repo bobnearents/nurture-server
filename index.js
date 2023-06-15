@@ -5,7 +5,7 @@ import paymentRouter from './src/payment/payment-router.js';
 import serviceRouter from './src/service/service-router.js';
 import certificationRouter from './src/certification/certification-router.js';
 import adminRouter from './src/admin-router.js';
-import { upload } from './src/s3.js';
+import { deletePhoto, upload } from './src/s3.js';
 
 // import analyticsService from './src/analytics/analytics-service.js';
 import express from 'express';
@@ -33,8 +33,35 @@ app.use(function (req, res, next) {
 app.get('/', (req, res) => {
   res.send('hello world');
 });
-app.post('/upload', upload.single('photo'), (req, res) => {
-  res.send({ upload: res.req.file.location });
+app.post(
+  '/s3/:id',
+  upload.fields([
+    { name: 'profile_photo', maxCount: 1 },
+    { name: 'logo', maxCount: 1 }
+  ]),
+  (req, res) => {
+    const { id } = req.params;
+    const photoTypes = Object.keys(res.req.files);
+    const patchBody = photoTypes.reduce(
+      (acc, cur) => ({ ...acc, [cur]: res.req.files[cur][0].key }),
+      {}
+    );
+    console.log(patchBody, id);
+    crudService.provider.update(id, patchBody);
+    res.send(patchBody);
+  }
+);
+app.delete('/s3/:key', async (req, res) => {
+  const { key } = req.params;
+  console.log(key, req.body);
+  const [photoType, id] = key.split('.')[0].split('-');
+
+  const photoResponse = await deletePhoto(key);
+  const updateResponse = await crudService.provider.update(Number(id), {
+    [photoType]: null
+  });
+  console.log(photoResponse, updateResponse);
+  res.send('okay');
 });
 app.use('/zip-codes', zipRouter);
 app.use('/providers', providerRouter);

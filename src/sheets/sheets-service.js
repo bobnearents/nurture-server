@@ -149,10 +149,8 @@ const settingList = [
 ];
 
 const createNewProviderFromSheets = async (provider) => {
-  console.log(provider);
   const response = await crudService.provider.add(provider.contact);
   const { id } = response.rows[0];
-  console.log(id);
   const { ethnicity, setting, patientDemographic, ...demographicProfile } =
     provider.demographic;
   const demographicResponse = await crudService.provider_demographic.add({
