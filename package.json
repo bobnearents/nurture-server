@@ -7,7 +7,7 @@
     "start": "nodemon index.js",
     "deploy": "git push heroku master && heroku logs --tail",
     "migrate": "postgrator --config ./config/postgrator-config.js",
-    "seed": "psql -U postgres -d nurture -c \"BEGIN TRANSACTION;\" -f ./db/seeds/seed.certification.sql -f ./db/seeds/seed.payment.sql -f ./db/seeds/seed.service.sql -f ./db/seeds/seed.ethnicity.sql -f ./db/seeds/seed.setting.sql -f ./db/seeds/seed.patient_demographic.sql -c \"COMMIT;\"",
+    "seed": "psql -U postgres -d nurture -c \"BEGIN TRANSACTION;\" -f ./db/seeds/seed.certification.sql -f ./db/seeds/seed.payment.sql -f ./db/seeds/seed.service.sql -f ./db/seeds/seed.ethnicity.sql -f ./db/seeds/seed.setting.sql -f ./db/seeds/seed.patient_demographic.sql -f ./db/seeds/seed.appointment_type.sql -c \"COMMIT;\"",
     "seed-production": "PGPASSWORD=pR7H9Q6ARhOXUouAVj94ECdQD6Wnf7KM psql -h dpg-cggujpgrjent5o4oi7pg-a.oregon-postgres.render.com -U provider_user -d provider -c \"BEGIN TRANSACTION;\" -f ./db/seeds/seed.certification.sql -f ./db/seeds/seed.payment.sql -f ./db/seeds/seed.service.sql -f ./db/seeds/seed.ethnicity.sql -f ./db/seeds/seed.setting.sql -f ./db/seeds/seed.patient_demographic.sql -c \"COMMIT;\"",
     "seed-sheets": "node ./db/seeds/seed-sheets-data.js",
     "prerefresh": "npm run migrate 0 && npm run migrate",
@@ -22,6 +22,7 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.279.0",
     "@google-analytics/data": "^3.2.1",
+    "@sendgrid/mail": "^7.7.0",
     "aws-sdk": "^2.1323.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",

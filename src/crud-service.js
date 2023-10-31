@@ -99,14 +99,16 @@ class CrudFunctions {
 
   async update(id, patchBody) {
     const flattenedPatchBody = Object.entries(patchBody);
+
     let queryString = '';
     flattenedPatchBody.forEach((body, index) => {
-      const value = body[1] ? `'${body[1]}'` : null;
+      const value = body[1] !== undefined || null ? `'${body[1]}'` : null;
       queryString += `${body[0]} = ${value}`;
       if (index != flattenedPatchBody.length - 1) {
         queryString += ', ';
       }
     });
+
     const res = await handleQuery(
       `UPDATE ${this.table} SET ${queryString} WHERE id = ${id}`
     );
@@ -125,15 +127,19 @@ class CrudFunctions {
   }
 }
 
+const leftJoinOptionTable = (mainTable, optionTable) => {
+  const bridgeTable = `${mainTable}_${optionTable}`;
+  return `LEFT JOIN ${bridgeTable} ON ${mainTable}.id = ${bridgeTable}.${mainTable}_id LEFT JOIN ${optionTable} ON ${bridgeTable}.${optionTable}_id = ${optionTable}.id`;
+};
+
 const getAllProviders = async (unreviewedProviders = false, id) => {
   const { rows } = await handleQuery(
-    `SELECT provider.*, service.name AS "service", service_id, payment.name AS "payment", payment_id, certification.name AS "cert", certification_id
-  FROM provider LEFT JOIN provider_service ON provider.id = provider_service.provider_id
-        LEFT JOIN service ON provider_service.service_id = service.id
-    LEFT JOIN provider_payment ON provider.id = provider_payment.provider_id
-        LEFT JOIN payment ON provider_payment.payment_id = payment.id
-    LEFT JOIN provider_certification ON provider.id = provider_certification.provider_id
-        LEFT JOIN certification ON provider_certification.certification_id = certification.id
+    `SELECT provider.*, service.name AS "service", service_id, payment.name AS "payment", payment_id, certification.name AS "cert", certification_id, appointment_type.name AS "appointment_type", appointment_type_id
+  FROM provider 
+    ${leftJoinOptionTable('provider', 'service')}
+    ${leftJoinOptionTable('provider', 'payment')}
+    ${leftJoinOptionTable('provider', 'certification')}
+    ${leftJoinOptionTable('provider', 'appointment_type')}
     ${
       id
         ? `WHERE provider.id =${id}`
@@ -141,6 +147,23 @@ const getAllProviders = async (unreviewedProviders = false, id) => {
     }`
   );
 
+  return rows;
+};
+
+const getAllOrganizations = async (unreviewedOrganizations = false, id) => {
+  const { rows } = await handleQuery(
+    `SELECT organization.*,service.name AS "service", service_id, payment.name AS "payment", payment_id, provider_id, appointment_type.name AS "appointment_type", appointment_type_id
+    FROM organization
+    ${leftJoinOptionTable('organization', 'service')}
+    ${leftJoinOptionTable('organization', 'payment')}
+    ${leftJoinOptionTable('organization', 'appointment_type')}
+    LEFT JOIN organization_provider ON organization.id = organization_provider.organization_id
+    ${
+      id
+        ? `WHERE organization.id =${id}`
+        : `WHERE organization.needs_review = ${unreviewedOrganizations}`
+    }`
+  );
   return rows;
 };
 
@@ -161,9 +184,12 @@ const service = new CrudFunctions('service');
 const payment = new CrudFunctions('payment');
 const certification = new CrudFunctions('certification');
 const provider = new CrudFunctions('provider');
+const organization = new CrudFunctions('organization');
 const provider_certification = new CrudFunctions('provider_certification');
 const provider_payment = new CrudFunctions('provider_payment');
 const provider_service = new CrudFunctions('provider_service');
+const organization_payment = new CrudFunctions('organization_payment');
+const organization_service = new CrudFunctions('organization_service');
 const ethnicity = new CrudFunctions('ethnicity');
 const setting = new CrudFunctions('setting');
 const provider_demographic = new CrudFunctions('provider_demographic');
@@ -178,9 +204,12 @@ export default {
   payment,
   certification,
   provider,
+  organization,
   provider_certification,
   provider_payment,
   provider_service,
+  organization_payment,
+  organization_service,
   ethnicity,
   setting,
   provider_demographic,
@@ -188,6 +217,7 @@ export default {
   provider_setting,
   provider_patient_demographic,
   getAllProviders,
+  getAllOrganizations,
   getProviderById,
   getProviderColumns
 };

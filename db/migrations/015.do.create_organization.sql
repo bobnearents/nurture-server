@@ -1,10 +1,9 @@
-CREATE TABLE provider (
+CREATE TABLE organization (
     id SERIAL PRIMARY KEY NOT NULL,
     date_created TIMESTAMP DEFAULT now() NOT NULL,
     needs_review BOOLEAN DEFAULT TRUE,
     edit_hash TEXT,
     name TEXT NOT NULL UNIQUE,
-    business_name TEXT,
     email TEXT,
     phone VARCHAR(15),
     website TEXT,
@@ -14,10 +13,6 @@ CREATE TABLE provider (
     state TEXT,
     zip VARCHAR(10),
     overview TEXT,
-    role TEXT,
-    bio TEXT,
-    pronouns TEXT,
-    languages_spoken TEXT,
-    logo TEXT,
-    profile_photo TEXT
+    year_established INTEGER,
+    logo TEXT
 );

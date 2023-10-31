@@ -3,23 +3,27 @@ import crudService from '../crud-service.js';
 
 import providerService from './provider-service.js';
 const providerRouter = express.Router();
-providerRouter.route('/').get(async (req, res) => {
-  const { isPending } = req.query;
-  const rows = await providerService.getAllProviders(isPending);
-  res.send(rows);
-});
-providerRouter.post('/', async (req, res) => {
-  const newProvider = req.body;
-  const rows = await providerService.createNewProvider(newProvider);
-  if (!rows || rows.error) {
-    res.statusCode = 404;
-    console.log(rows.error);
-    res.send({ error: rows ? rows.error : 'there was an error' });
-  } else {
-    res.statusCode = 200;
-    res.send({ id: rows });
-  }
-});
+providerRouter
+  .route('/')
+  .get(async (req, res) => {
+    const { isPending } = req.query;
+    const rows = await providerService.getAllProviders(isPending);
+    res.send(rows);
+  })
+  .post(async (req, res) => {
+    const newProvider = req.body;
+    const rows = await providerService.createNewProvider(newProvider);
+    if (!rows || rows.error) {
+      res.statusCode =
+        rows?.error && rows.error.includes('already exists') ? 409 : 400;
+      console.log(rows.error);
+
+      res.send({ error: rows ? rows.error : 'there was an error' });
+    } else {
+      res.statusCode = 200;
+      res.send({ id: rows });
+    }
+  });
 providerRouter.get('/columns', async (req, res) => {
   const rows = await crudService.getProviderColumns();
 

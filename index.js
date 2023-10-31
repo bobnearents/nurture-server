@@ -6,10 +6,11 @@ import serviceRouter from './src/service/service-router.js';
 import certificationRouter from './src/certification/certification-router.js';
 import adminRouter from './src/admin-router.js';
 import { deletePhoto, upload } from './src/s3.js';
-
+import sgMail from '@sendgrid/mail';
 // import analyticsService from './src/analytics/analytics-service.js';
 import express from 'express';
 import crudService from './src/crud-service.js';
+import organizationRouter from './src/organization/organization-router.js';
 
 const app = express();
 
@@ -19,7 +20,7 @@ app.use(express.static('public'));
 app.use(function (req, res, next) {
   res.header(
     'Access-Control-Allow-Origin',
-    `${config.NODE_ENV === 'production' ? config.CLIENT_URL : '*'}`
+    `${config.NODE_ENV === 'production' ? '*' : '*'}`
   );
   res.header(
     'Access-Control-Allow-Headers',
@@ -31,7 +32,24 @@ app.use(function (req, res, next) {
 });
 
 app.get('/', (req, res) => {
-  res.send('hello world');
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  const msg = {
+    to: 'bobnearents@gmail.com', // Change to your recipient
+    from: 'bobnearents@gmail.com', // Change to your verified sender
+    subject: 'Sending with SendGrid is Fun',
+    text: 'and easy to do anywhere, even with Node.js',
+    html: '<strong>and easy to do anywhere, even with Node.js</strong>'
+  };
+  console.log(msg);
+  sgMail
+    .send(msg)
+    .then(() => {
+      console.log('Email sent');
+      res.send('hello world');
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 });
 app.post(
   '/s3/:id',
@@ -65,6 +83,7 @@ app.delete('/s3/:key', async (req, res) => {
 });
 app.use('/zip-codes', zipRouter);
 app.use('/providers', providerRouter);
+app.use('/organizations', organizationRouter);
 app.use('/payment-options', paymentRouter);
 app.use('/services', serviceRouter);
 app.use('/certifications', certificationRouter);
