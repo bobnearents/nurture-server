@@ -22,7 +22,6 @@
   "dependencies": {
     "@aws-sdk/client-s3": "^3.279.0",
     "@google-analytics/data": "^3.2.1",
-    "@sendgrid/mail": "^7.7.0",
     "aws-sdk": "^2.1323.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
