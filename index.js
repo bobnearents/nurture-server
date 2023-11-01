@@ -32,24 +32,25 @@ app.use(function (req, res, next) {
 });
 
 app.get('/', (req, res) => {
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  const msg = {
-    to: 'bobnearents@gmail.com', // Change to your recipient
-    from: 'bobnearents@gmail.com', // Change to your verified sender
-    subject: 'Sending with SendGrid is Fun',
-    text: 'and easy to do anywhere, even with Node.js',
-    html: '<strong>and easy to do anywhere, even with Node.js</strong>'
-  };
-  console.log(msg);
-  sgMail
-    .send(msg)
-    .then(() => {
-      console.log('Email sent');
-      res.send('hello world');
-    })
-    .catch((error) => {
-      console.error(error);
-    });
+  res.send('hello world!');
+  // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+  // const msg = {
+  //   to: 'bobnearents@gmail.com', // Change to your recipient
+  //   from: 'bobnearents@gmail.com', // Change to your verified sender
+  //   subject: 'Sending with SendGrid is Fun',
+  //   text: 'and easy to do anywhere, even with Node.js',
+  //   html: '<strong>and easy to do anywhere, even with Node.js</strong>'
+  // };
+  // console.log(msg);
+  // sgMail
+  //   .send(msg)
+  //   .then(() => {
+  //     console.log('Email sent');
+  //     res.send('hello world');
+  //   })
+  //   .catch((error) => {
+  //     console.error(error);
+  //   });
 });
 app.post(
   '/s3/:id',
