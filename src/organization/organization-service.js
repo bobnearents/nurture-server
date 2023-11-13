@@ -38,7 +38,6 @@ export const getAllOrganizations = async (isPendingOrganizations) => {
 
 export const getOrganizationById = async (id) => {
   const databaseOrganization = await crudService.getOrganizationById(id);
-
   return buildOrganizationData(databaseOrganization);
 };
 
@@ -68,7 +67,6 @@ export const createNewOrganization = async (organization) => {
 };
 
 export const editOrganization = async (organization, id) => {
-  console.log(organization, id);
   const test = await crudService.organization.update(id, organization.general);
   organization.services &&
     crudService.organization_service.delete(id, 'organization_id') &&
@@ -104,7 +102,6 @@ const buildOrganizationData = (organization) => {
       list.push({ name: option, id });
     }
   };
-
   const services = [];
   const paymentOptions = [];
   organization.forEach((tuple) => {

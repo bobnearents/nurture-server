@@ -1,10 +1,12 @@
 INSERT INTO ethnicity (name)
 VALUES
-    ('Native American or Alaska Native'),
-    ('East Asian or Asian American'),
-    ('South Asian or Indian American'),
-    ('Black or African American'),
-    ('Hispanic, Latino, Latina, or Latinx'),
-    ('Middle Eastern or Northern African'),
+    ('American Indian, Native, First Nations, Indigenous Peoples of the Americas, or Alaska Native'),
+    ('Asian or Asian-American'),
+    ('Black or African-American'),
+    ('Hispanic, Latino/a, Spanish'),
+    ('Middle Eastern or North African'),
     ('Native Hawaiian or Pacific Islander'),
-    ('White')
+    ('White'),
+    ('Not listed (please specify)'),
+    ('Don’t know'),
+    ('Prefer not to answer')

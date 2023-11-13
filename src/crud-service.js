@@ -14,7 +14,7 @@ const handleQuery = async (query, params) => {
   try {
     result = await client.query(query, params);
   } catch (error) {
-    // console.log(error);
+    console.log('error', error);
     result = { error };
   } finally {
     client.release();
@@ -178,6 +178,7 @@ const getProviderColumns = async () => {
 };
 
 const getProviderById = async (id) => await getAllProviders(false, id);
+const getOrganizationById = async (id) => await getAllOrganizations(false, id);
 
 //write them all out like this, so we still get access to the jsdocs
 const service = new CrudFunctions('service');
@@ -219,5 +220,6 @@ export default {
   getAllProviders,
   getAllOrganizations,
   getProviderById,
+  getOrganizationById,
   getProviderColumns
 };

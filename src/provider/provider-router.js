@@ -21,6 +21,7 @@ providerRouter
       res.send({ error: rows ? rows.error : 'there was an error' });
     } else {
       res.statusCode = 200;
+      console.log(rows);
       res.send({ id: rows });
     }
   });

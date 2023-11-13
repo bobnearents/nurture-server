@@ -10,6 +10,7 @@ import { deletePhoto, upload } from './src/s3.js';
 import express from 'express';
 import crudService from './src/crud-service.js';
 import organizationRouter from './src/organization/organization-router.js';
+import { run } from './src/email-service.js';
 
 const app = express();
 
@@ -32,6 +33,7 @@ app.use(function (req, res, next) {
 
 app.get('/', (req, res) => {
   res.send('hello world!');
+  run();
 });
 app.post(
   '/s3/:id',
