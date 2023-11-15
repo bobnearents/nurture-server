@@ -1,4 +1,4 @@
-import crudService from '../crud-service.js';
+import crudService from '../services/crud-service.js';
 
 export const getAllOrganizations = async (isPendingOrganizations) => {
   const databaseOrganizationsWithDuplicates =

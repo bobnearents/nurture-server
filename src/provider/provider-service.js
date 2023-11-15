@@ -1,4 +1,4 @@
-import crudService from '../crud-service.js';
+import crudService from '../services/crud-service.js';
 
 /**
  * This functions inserts a new provider to the database, and then stores the new id returned from the database.

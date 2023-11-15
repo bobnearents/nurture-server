@@ -1,7 +1,7 @@
 import { google } from 'googleapis';
 import { sheets } from 'googleapis/build/src/apis/sheets/index.js';
 import config from '../../config/config.js';
-import crudService from '../crud-service.js';
+import crudService from './crud-service.js';
 
 /**
  * this component is deprecated

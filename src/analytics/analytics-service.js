@@ -45,7 +45,7 @@ const getReports = async (timeLength) => {
 
 export default { getReports };
 
-// ****************&************************
+// ****************************************
 
 // const propertyId = '328044542';
 

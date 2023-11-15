@@ -1,4 +1,4 @@
-import config from './config/config.js';
+import config from './config/config';
 import zipRouter from './src/zip/zip-router.js';
 import providerRouter from './src/provider/provider-router.js';
 import paymentRouter from './src/payment/payment-router.js';
@@ -8,9 +8,9 @@ import adminRouter from './src/admin-router.js';
 import { deletePhoto, upload } from './src/s3.js';
 // import analyticsService from './src/analytics/analytics-service.js';
 import express from 'express';
-import crudService from './src/crud-service.js';
+import crudService from './src/services/crud-service';
 import organizationRouter from './src/organization/organization-router.js';
-import { run } from './src/email-service.js';
+import { run } from './src/services/email-service.js';
 
 const app = express();
 

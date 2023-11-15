@@ -1,5 +1,5 @@
 import express from 'express';
-import crudService from '../crud-service.js';
+import crudService from '../services/crud-service.js';
 
 const serviceRouter = express.Router();
 

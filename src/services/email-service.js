@@ -44,7 +44,7 @@ const createSendEmailCommand = (toAddress, fromAddress) => {
 
 export const run = async () => {
   const sendEmailCommand = createSendEmailCommand(
-    'bobnearents@gmail.com',
+    'bobnearents@yahoo.com',
     'welcome@earlyparentinghub.org'
   );
 

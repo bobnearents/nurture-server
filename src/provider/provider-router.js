@@ -1,13 +1,17 @@
 import express from 'express';
-import crudService from '../crud-service.js';
+import crudService from '../services/crud-service.js';
 
 import providerService from './provider-service.js';
+import {
+  getAllProviders,
+  getProviderById
+} from '../services/primary-service.js';
 const providerRouter = express.Router();
 providerRouter
   .route('/')
   .get(async (req, res) => {
     const { isPending } = req.query;
-    const rows = await providerService.getAllProviders(isPending);
+    const rows = await getAllProviders(false, 'provider');
     res.send(rows);
   })
   .post(async (req, res) => {
@@ -35,7 +39,7 @@ providerRouter
   .get(async (req, res) => {
     const { id } = req.params;
     try {
-      const rows = await providerService.getProviderById(id);
+      const rows = await getProviderById(id, 'provider');
       res.send(rows);
     } catch (error) {
       res.statusCode = 404;
