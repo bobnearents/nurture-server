@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS certification;
+DROP TABLE IF EXISTS certification

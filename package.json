@@ -4,18 +4,18 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "nodemon index.ts",
-    "deploy": "git push heroku master && heroku logs --tail",
+    "start": "node index.js",
+    "dev": "nodemon index.js",
+    "db:backup": "./db/backup-database.sh",
+    "db:restore": "./db/restore-recent-data.sh",
+    "predb:rebuild": "npm run generate-sql",
+    "db:rebuild": "npm run migrate 0 && npm run migrate && npm run seed",
+    "postdb:rebuild": "npm run db:restore",
+    "db:update": "npm run db:backup && npm run rebuild",
+    "generate-sql": "node ./db/model/generate-migrations.js && node ./db/model/generate-seeds.js",
+    "seed-sheets": "./db/seed-sheets-data.sh",
     "migrate": "postgrator --config ./config/postgrator-config.js",
-    "seed": "psql -U postgres -d nurture -c \"BEGIN TRANSACTION;\" -f ./db/seeds/seed.certification.sql -f ./db/seeds/seed.payment.sql -f ./db/seeds/seed.service.sql -f ./db/seeds/seed.ethnicity.sql -f ./db/seeds/seed.setting.sql -f ./db/seeds/seed.patient_demographic.sql -f ./db/seeds/seed.appointment_type.sql -c \"COMMIT;\"",
-    "seed-production": "PGPASSWORD=pR7H9Q6ARhOXUouAVj94ECdQD6Wnf7KM psql -h dpg-cggujpgrjent5o4oi7pg-a.oregon-postgres.render.com -U provider_user -d provider -c \"BEGIN TRANSACTION;\" -f ./db/seeds/seed.certification.sql -f ./db/seeds/seed.payment.sql -f ./db/seeds/seed.service.sql -f ./db/seeds/seed.ethnicity.sql -f ./db/seeds/seed.setting.sql -f ./db/seeds/seed.patient_demographic.sql -c \"COMMIT;\"",
-    "seed-sheets": "node ./db/seeds/seed-sheets-data.js",
-    "prerefresh": "npm run migrate 0 && npm run migrate",
-    "refresh": "npm run seed",
-    "postrefresh": "npm run seed-sheets",
-    "prerefresh-production": "npm run migrate 0 && npm run migrate",
-    "refresh-production": "npm run seed-production",
-    "postrefresh-production": "NODE_ENV=production npm run seed-sheets"
+    "seed": "./db/seed-database.sh"
   },
   "author": "",
   "license": "ISC",
@@ -34,12 +34,15 @@
     "nodemon": "^2.0.16",
     "pg": "^8.7.3",
     "postgrator": "^7.1.0",
-    "postgrator-cli": "^6.0.0"
+    "postgrator-cli": "^6.0.0",
+    "ts-node": "^10.9.1"
   },
   "type": "module",
   "devDependencies": {
     "@types/cors": "^2.8.16",
     "@types/express": "^4.17.21",
+    "@types/multer": "^1.4.10",
+    "@types/multer-s3": "^3.0.3",
     "@types/pg": "^8.10.9",
     "ts-node-dev": "^2.0.0",
     "typescript": "^5.2.2"

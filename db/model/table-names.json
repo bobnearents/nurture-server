@@ -1,0 +1,294 @@
+{
+  "tables": [
+    {
+      "dbName": "service",
+      "jsName": "services",
+      "endpointName": "/services",
+      "columns": [
+        { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
+        { "name": "name", "dataTypes": "TEXT NOT NULL" },
+        { "name": "full_name", "dataTypes": "TEXT" },
+        { "name": "at_risk", "dataTypes": "BOOLEAN" }
+      ],
+      "seedNames": [
+        "Doula Support",
+        "Lactation Support",
+        "Perinatal Mental Health"
+      ]
+    },
+    {
+      "dbName": "payment",
+      "jsName": "paymentOptions",
+      "endpointName": "/payment-options",
+      "columns": [
+        { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
+        { "name": "name", "dataTypes": "TEXT NOT NULL" },
+        { "name": "full_name", "dataTypes": "TEXT" }
+      ],
+      "seedNames": [
+        "Free or Pro Bono",
+        "Private Insurance",
+        "Medicaid",
+        "FAMIS",
+        "Fee for Service",
+        "Sliding Scale",
+        "Payment Plan"
+      ]
+    },
+    {
+      "dbName": "certification",
+      "jsName": "certifications",
+      "endpointName": "/certifications",
+      "columns": [
+        { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
+        { "name": "name", "dataTypes": "TEXT NOT NULL" },
+        { "name": "at_risk", "dataTypes": "BOOLEAN" }
+      ],
+      "seedNames": [
+        "International Board Certified Lactation Consultant (IBCLC)",
+        "Certified Lactation Counselor (CLC)",
+        "Certified Lactation Specialist (CLS)",
+        "Certified Lactation Educator (CLE)",
+        "Certified Breastfeeding Counselor (CBC)",
+        "Lactation Education Counselor (LEC)",
+        "La Leche League Leader (LLL)",
+        "Community Health Worker (CHW)",
+        "Certified Doula (CD)",
+        "Licensed Professional Counselor (LPC)",
+        "Licensed Clinical Social Worker (LCSW)",
+        "Licensed Clinical Psychologist (LCP)",
+        "Doctor of Psychology (Psy.D)",
+        "Perinatal Mental Health Certification (PMH-C)",
+        "Doctoral Degree (PhD)",
+        "Medical Degree (MD)",
+        "Nursing Degree (RN, BSN)",
+        "Breastfeeding USA Counselor",
+        "Peer Breastfeeding Counselor"
+      ]
+    },
+    {
+      "dbName": "appointment_type",
+      "jsName": "appointmentTypes",
+      "endpointName": "/appointment-types",
+      "columns": [
+        { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
+        { "name": "name", "dataTypes": "TEXT NOT NULL" }
+      ],
+      "seedNames": ["Online/telehealth available", "Home visits available"]
+    },
+    {
+      "dbName": "language",
+      "jsName": "languages",
+      "endpointName": "/languages",
+      "columns": [
+        { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
+        { "name": "name", "dataTypes": "TEXT NOT NULL" }
+      ],
+      "seedNames": [
+        "English",
+        "Afrikaans",
+        "Albanian",
+        "American Sign Language (ASL)",
+        "Arabic",
+        "Armenian",
+        "Bengali",
+        "Cambodian",
+        "Cantonese",
+        "Chinese",
+        "Creole",
+        "Croatian",
+        "Czech",
+        "Dakota",
+        "Danish",
+        "Dineh",
+        "Dutch",
+        "Farsi",
+        "Filipino",
+        "Finnish",
+        "French",
+        "German",
+        "Georgian",
+        "Greek",
+        "Gujarati",
+        "Haitian",
+        "Hawaiian",
+        "Hebrew",
+        "Hindi",
+        "Hopi",
+        "Hungarian",
+        "Indian",
+        "Italian",
+        "Japanese",
+        "Kannada",
+        "Khmer",
+        "Korean",
+        "Lakota",
+        "Lebanese",
+        "Lithuanian",
+        "Mandarin",
+        "Marathi",
+        "Norwegian",
+        "Persian",
+        "Polish",
+        "Portuguese",
+        "Punjabi",
+        "Romanian",
+        "Russian",
+        "Serbian",
+        "Spanish",
+        "Swahili",
+        "Swedish",
+        "Tagalog",
+        "Taiwanese",
+        "Tamil",
+        "Telugu",
+        "Thai",
+        "Turkish",
+        "Ukrainian",
+        "Urdu",
+        "Vietnamese",
+        "Yiddish"
+      ]
+    },
+    {
+      "dbName": "gender",
+      "jsName": "gender",
+      "endpointName": "/gender",
+      "columns": [
+        { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
+        { "name": "name", "dataTypes": "TEXT NOT NULL" }
+      ],
+      "seedNames": [
+        "Female",
+        "Male",
+        "Transgender",
+        "Cisgender",
+        "Genderqueer or gender nonconforming",
+        "Prefer not to say"
+      ]
+    },
+    {
+      "dbName": "pronoun",
+      "jsName": "pronouns",
+      "endpointName": "/pronouns",
+      "columns": [
+        { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
+        { "name": "name", "dataTypes": "TEXT NOT NULL" }
+      ],
+      "seedNames": [
+        "She/Her/Hers",
+        "He/Him/His",
+        "They/Them/Theirs",
+        "Ze/Hir/Hirs",
+        "Prefer not to answer"
+      ]
+    },
+    {
+      "dbName": "ethnicity",
+      "jsName": "ethnicity",
+      "endpointName": "/ethnicity",
+      "columns": [
+        { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
+        { "name": "name", "dataTypes": "TEXT NOT NULL" }
+      ],
+      "seedNames": [
+        "American Indian, Native, First Nations, Indigenous Peoples of the Americas, or Alaska Native",
+        "Asian or Asian-American",
+        "Black or African-American",
+        "Hispanic, Latino/a, Spanish",
+        "Middle Eastern or North African",
+        "Native Hawaiian or Pacific Islander",
+        "White",
+        "Don’t know",
+        "Prefer not to answer"
+      ]
+    },
+    {
+      "dbName": "provider",
+      "jsName": "provider",
+      "endpointName": "/providers",
+      "relationships": [
+        "service",
+        "payment",
+        "certification",
+        "appointment_type",
+        "language",
+        "pronoun"
+      ],
+      "columns": [
+        { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
+        {
+          "name": "date_created",
+          "dataTypes": "TIMESTAMP DEFAULT now() NOT NULL"
+        },
+        { "name": "needs_review", "dataTypes": "BOOLEAN DEFAULT TRUE" },
+        { "name": "edit_hash", "dataTypes": "TEXT" },
+        { "name": "name", "dataTypes": "TEXT NOT NULL UNIQUE" },
+        { "name": "business_name", "dataTypes": "TEXT" },
+        { "name": "email", "dataTypes": "TEXT" },
+        { "name": "phone", "dataTypes": "VARCHAR(15)" },
+        { "name": "website", "dataTypes": "TEXT" },
+        { "name": "address_1", "dataTypes": "TEXT" },
+        { "name": "address_2", "dataTypes": "TEXT" },
+        { "name": "city", "dataTypes": "TEXT" },
+        { "name": "state", "dataTypes": "TEXT" },
+        { "name": "zip", "dataTypes": "VARCHAR(10)" },
+        { "name": "overview", "dataTypes": "TEXT" },
+        { "name": "role", "dataTypes": "TEXT" },
+        { "name": "bio", "dataTypes": "TEXT" },
+        { "name": "pronouns", "dataTypes": "TEXT" },
+        { "name": "languages_spoken", "dataTypes": "TEXT" },
+        { "name": "logo", "dataTypes": "TEXT" },
+        { "name": "profile_photo", "dataTypes": "TEXT" }
+      ]
+    },
+    {
+      "dbName": "organization",
+      "jsName": "organization",
+      "endpointName": "/organizations",
+      "relationships": ["payment", "appointment_type", "provider"],
+      "columns": [
+        { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
+        {
+          "name": "date_created",
+          "dataTypes": "TIMESTAMP DEFAULT now() NOT NULL"
+        },
+        { "name": "needs_review", "dataTypes": "BOOLEAN DEFAULT TRUE" },
+        { "name": "edit_hash", "dataTypes": "TEXT" },
+        { "name": "name", "dataTypes": "TEXT NOT NULL UNIQUE" },
+        { "name": "email", "dataTypes": "TEXT" },
+        { "name": "phone", "dataTypes": "VARCHAR(15)" },
+        { "name": "website", "dataTypes": "TEXT" },
+        { "name": "address_1", "dataTypes": "TEXT" },
+        { "name": "address_2", "dataTypes": "TEXT" },
+        { "name": "city", "dataTypes": "TEXT" },
+        { "name": "state", "dataTypes": "TEXT" },
+        { "name": "zip", "dataTypes": "VARCHAR(10)" },
+        { "name": "overview", "dataTypes": "TEXT" },
+        { "name": "year_established", "dataTypes": "INTEGER" },
+        { "name": "logo", "dataTypes": "TEXT" }
+      ]
+    },
+    {
+      "dbName": "demographic_profile",
+      "jsName": "demographicProfiles",
+      "endpointName": "/demographic-profiles",
+      "relationships": ["ethnicity", "gender"],
+      "columns": [
+        { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
+        {
+          "name": "provider_id",
+          "dataTypes": "INTEGER REFERENCES provider(id) NOT NULL"
+        },
+        {
+          "name": "date_created",
+          "dataTypes": "TIMESTAMP DEFAULT now() NOT NULL"
+        },
+        {
+          "name": "age",
+          "dataTypes": "INTEGER"
+        }
+      ]
+    }
+  ]
+}

@@ -1,1 +1,0 @@
-DROP TABLE IF EXISTS organization_appointment_type;

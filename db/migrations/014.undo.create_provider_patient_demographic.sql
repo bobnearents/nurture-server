@@ -1,1 +1,0 @@
-DROP TABLE IF EXISTS provider_patient_demographic;
