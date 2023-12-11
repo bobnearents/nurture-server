@@ -1,4 +1,4 @@
-import jsonTables from './table-names.json' assert { type: 'json' };
+import jsonTables from './table-names.json';
 const { tables } = jsonTables;
 
 export const getAllTableNames = () => {

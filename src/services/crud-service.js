@@ -10,7 +10,7 @@
 //   OrganizationObject
 // } from '../types.js';
 import { buildQuery, handleQuery } from '../utils/query-functions.js';
-import tableNames from '../../db/model/table-names.json' assert { type: 'json' };
+import tableNames from '../../db/model/table-names.json';
 const { tables } = tableNames;
 // type Test = Option | JoinedObject | DemographicObject | BridgeTableObject<any>;
 /** Class representing crud functions of a given table */
