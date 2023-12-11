@@ -1,7 +1,26 @@
-import jsonTables from './table-names.json';
+import jsonTables from './table-names.json' assert { type: 'json' };
 const { tables } = jsonTables;
 
 export const getAllTableNames = () => {
+  return tables.flatMap((tableObject) => {
+    const tableName = tableObject.dbName;
+    const relationships = tableObject.relationships;
+
+    if (relationships) {
+      const junctionTableNames = relationships.map(
+        (optionName) => `${tableName}_${optionName}`
+      );
+      return [tableName, ...junctionTableNames];
+    }
+    return tableName;
+  });
+};
+
+export const findTableByName = (dbName) => {
+  return tables.find((table) => table.dbName === dbName);
+};
+
+export const getAllTables = () => {
   return tables.flatMap((tableObject) => {
     const tableName = tableObject.dbName;
     const relationships = tableObject.relationships;
@@ -18,10 +37,6 @@ export const getAllTableNames = () => {
     }
     return tableName;
   });
-};
-
-export const findTableByName = (dbName) => {
-  return tables.find((table) => table.dbName === dbName);
 };
 
 export const getAllSeedTables = () => {

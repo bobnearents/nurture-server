@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "node index.js",
+    "start": "node --experimental-json-modules index.js",
     "dev": "nodemon index.js",
     "db:backup": "./db/backup-database.sh",
     "db:restore": "./db/restore-recent-data.sh",

@@ -4,12 +4,16 @@ const rmFiles = (outputDirectory) => {
   rmSync(outputDirectory, { force: true, recursive: true });
 };
 
-export const generateSqlFilesFromList = (outputDirectory, list, createFile) => {
+export const generateSqlFilesFromList = (
+  outputDirectory,
+  tableList,
+  createFile
+) => {
   if (existsSync(outputDirectory)) {
     rmFiles(outputDirectory);
   }
   mkdirSync(outputDirectory);
-  list.forEach((table, i) => createFile(table, i));
+  tableList.forEach((table, i) => createFile(table, i));
 };
 
 /**

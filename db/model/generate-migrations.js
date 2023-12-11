@@ -1,6 +1,6 @@
 import { writeFileSync } from 'fs';
 import { generateSqlFilesFromList } from './generate-sql.js';
-import { findTableByName, getAllTableNames } from './helpers.js';
+import { findTableByName, getAllTables } from './helpers.js';
 
 const migrationOutputDirectory = './db/migrations';
 
@@ -38,7 +38,7 @@ const createMigrationFile = (tableName, index) => {
 const generateMigrations = () =>
   generateSqlFilesFromList(
     migrationOutputDirectory,
-    getAllTableNames(),
+    getAllTables(),
     createMigrationFile
   );
 

@@ -10,8 +10,7 @@
 //   OrganizationObject
 // } from '../types.js';
 import { buildQuery, handleQuery } from '../utils/query-functions.js';
-import tableNames from '../../db/model/table-names.json';
-const { tables } = tableNames;
+import { getAllTableNames } from '../../db/model/helpers.js';
 // type Test = Option | JoinedObject | DemographicObject | BridgeTableObject<any>;
 /** Class representing crud functions of a given table */
 class CrudFunctions {
@@ -108,18 +107,7 @@ class CrudFunctions {
 // type TableNames = keyof TableTypes;
 
 const generateTableFunctions = () => {
-  const tableArray = tables.flatMap((tableObject) => {
-    const tableName = tableObject.dbName;
-    const relationships = tableObject.relationships;
-
-    if (relationships) {
-      const junctionTableNames = relationships.map(
-        (optionName) => `${tableName}_${optionName}`
-      );
-      return [tableName, ...junctionTableNames];
-    }
-    return tableName;
-  });
+  const tableArray = getAllTableNames();
 
   const tableFunctions = {};
   tableArray.forEach((table) => {
