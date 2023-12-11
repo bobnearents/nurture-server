@@ -1,5 +1,6 @@
-import jsonTables from './table-names.json' assert { type: 'json' };
-const { tables } = jsonTables;
+import { readFileSync } from 'fs';
+
+const { tables } = JSON.parse(readFileSync('./db/model/table-names.json'));
 
 export const getAllTableNames = () => {
   return tables.flatMap((tableObject) => {
