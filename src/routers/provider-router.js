@@ -1,6 +1,7 @@
 import express from 'express';
 import * as primaryService from '../services/primary-service.js';
 import crudService from '../services/crud-service.js';
+import { sendWelcomeEmail } from '../services/aws/ses.js';
 
 const providerRouter = express.Router();
 
@@ -27,6 +28,8 @@ providerRouter
         req.providerType
       );
       res.status(200).send({ id: rows });
+      if (!req.providerType.includes('demographic'))
+        sendWelcomeEmail(newProvider.general.email, rows, req.providerType);
     } catch (e) {
       console.log(e);
       res.status(e.message.includes('violates unique constraint') ? 409 : 400);

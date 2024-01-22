@@ -238,6 +238,7 @@
         { "name": "bio", "dataTypes": "TEXT" },
         { "name": "pronouns", "dataTypes": "TEXT" },
         { "name": "languages_spoken", "dataTypes": "TEXT" },
+        { "name": "year_established", "dataTypes": "TEXT" },
         { "name": "logo", "dataTypes": "TEXT" },
         { "name": "profile_photo", "dataTypes": "TEXT" }
       ]
@@ -246,7 +247,7 @@
       "dbName": "organization",
       "jsName": "organization",
       "endpointName": "/organizations",
-      "relationships": ["payment", "appointment_type", "provider"],
+      "relationships": ["service", "payment", "appointment_type", "provider"],
       "columns": [
         { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
         {

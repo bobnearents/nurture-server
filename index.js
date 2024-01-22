@@ -14,8 +14,8 @@ import {
   convertNameToTypeFromOtherType,
   getOptionTableNames
 } from './db/model/helpers.js';
+import emailRouter from './src/routers/email-router.js';
 // import organizationRouter from './src/organization/organization-router.js';
-// import { run } from './src/services/email-service.js';
 
 const app = express();
 
@@ -64,6 +64,7 @@ app.use(
   },
   providerRouter
 );
+app.use('/send-email', emailRouter);
 // app.use('/admin', adminRouter);
 // app.use('/zip-codes', zipRouter);
 

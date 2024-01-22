@@ -17,6 +17,7 @@ CREATE TABLE provider (id SERIAL PRIMARY KEY NOT NULL,
   bio TEXT,
   pronouns TEXT,
   languages_spoken TEXT,
+  year_established TEXT,
   logo TEXT,
   profile_photo TEXT
 );
