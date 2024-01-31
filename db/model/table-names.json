@@ -77,6 +77,22 @@
       "seedNames": ["Online/telehealth available", "Home visits available"]
     },
     {
+      "dbName": "organization_type",
+      "jsName": "organizationTypes",
+      "endpointName": "/organization-types",
+      "columns": [
+        { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
+        { "name": "name", "dataTypes": "TEXT NOT NULL" }
+      ],
+      "seedNames": [
+        "Hospital or Health Care System",
+        "Nonprofit Organization",
+        "For Profit Organization or Business",
+        "Government Agency",
+        "Insurance Provider"
+      ]
+    },
+    {
       "dbName": "language",
       "jsName": "languages",
       "endpointName": "/languages",
@@ -247,7 +263,13 @@
       "dbName": "organization",
       "jsName": "organization",
       "endpointName": "/organizations",
-      "relationships": ["service", "payment", "appointment_type", "provider"],
+      "relationships": [
+        "service",
+        "payment",
+        "appointment_type",
+        "provider",
+        "organization_type"
+      ],
       "columns": [
         { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
         {
