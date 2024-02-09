@@ -71,8 +71,8 @@ app.use('/send-email', emailRouter);
 //VVV to be DELETED VVV
 
 //zip-codes, providers, organizations, demographic_profile, admin,
-// app.post(
-//   '/s3/:id',
+// app.patch(
+//   '/providers/:id/upload',
 //   upload.fields([
 //     { name: 'profile_photo', maxCount: 1 },
 //     { name: 'logo', maxCount: 1 }
@@ -85,8 +85,9 @@ app.use('/send-email', emailRouter);
 //       {}
 //     );
 //     console.log(patchBody, id);
-//     crudService.provider.update(id, patchBody);
-//     res.send(patchBody);
+//     // crudService.provider.update(id, patchBody);
+//     // res.send(patchBody);
+//     res.send(id);
 //   }
 // );
 // app.delete('/s3/:key', async (req, res) => {

@@ -74,7 +74,11 @@
         { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
         { "name": "name", "dataTypes": "TEXT NOT NULL" }
       ],
-      "seedNames": ["Online/telehealth available", "Home visits available"]
+      "seedNames": [
+        "Online/telehealth available",
+        "Home visits available",
+        "In-office appointments available"
+      ]
     },
     {
       "dbName": "organization_type",

@@ -1,7 +1,9 @@
 import express from 'express';
 import * as primaryService from '../services/primary-service.js';
 import crudService from '../services/crud-service.js';
-import { sendWelcomeEmail } from '../services/aws/ses.js';
+import { sendRequestEditEmail, sendWelcomeEmail } from '../services/aws/ses.js';
+import { upload } from '../services/aws/s3.js';
+import { v4 as uuidv4 } from 'uuid';
 
 const providerRouter = express.Router();
 
@@ -16,7 +18,6 @@ providerRouter
       res.send(rows);
     } catch (e) {
       console.log(e);
-
       res.send(e.message || 'there was an error');
     }
   })
@@ -50,13 +51,26 @@ providerRouter
   })
   .patch(async (req, res) => {
     const { id } = req.params;
-    const provider = req.body;
+    const hash = uuidv4();
+    const patchBody = req.query.addHash
+      ? { general: { edit_hash: hash } }
+      : req.body;
+
     const response = await primaryService.editProvider(
-      provider,
+      patchBody,
       id,
       req.providerType
     );
-    // const response = await providerService.editProvider(provider, id);
+    if (req.query.addHash) {
+      // const { email } = await primaryService.getProviderById(
+      //   id,
+      //   req.providerType
+      // );
+      const email = 'bobnearents@gmail.com';
+      const { note } = req.body;
+      // console.log('body:', note);
+      sendRequestEditEmail(email, note, hash, id);
+    }
     res.send({ response });
   })
   .delete(async (req, res) => {
@@ -71,5 +85,34 @@ providerRouter.route('/:id/:hash').get(async (req, res) => {
   //TODO make sure edit hash doesn't get sent to client on GETs
   res.send(hash === rows.edit_hash);
 });
+providerRouter.route('/:id/upload').patch(
+  upload.fields([
+    { name: 'profile_photo', maxCount: 1 },
+    { name: 'logo', maxCount: 1 }
+  ]),
+  async (req, res) => {
+    const { id } = req.params;
+    const photoTypes = Object.keys(res.req.files);
+    const patchBody = photoTypes.reduce(
+      (acc, cur) => ({ ...acc, [cur]: res.req.files[cur][0].location }),
+      {}
+    );
+
+    crudService.provider.update(id, patchBody);
+    res.send(patchBody);
+  }
+);
+// .delete('/s3/:key', async (req, res) => {
+//   const { key } = req.params;
+//   console.log(key, req.body);
+//   const [photoType, id] = key.split('.')[0].split('-');
+
+//   const photoResponse = await deletePhoto(key);
+//   const updateResponse = await crudService.provider.update(Number(id), {
+//     [photoType]: null
+//   });
+//   console.log(photoResponse, updateResponse);
+//   res.send('okay');
+// });
 
 export default providerRouter;

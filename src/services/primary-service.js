@@ -147,7 +147,6 @@ export const createNewProvider = async (provider, providerType) => {
       'jsName',
       'dbName'
     );
-    console.log('provider', provider, 'optionName', optionName);
     provider[optionName].forEach((optionId) => {
       crudService[`${providerType}_${dbName}`].add({
         [`${providerType}_id`]: id,

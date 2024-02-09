@@ -1,4 +1,5 @@
 import { SESClient, SendEmailCommand } from '@aws-sdk/client-ses';
+import config from '../../../config/config.js';
 
 // Set the AWS Region.
 const REGION = 'us-east-1';
@@ -54,7 +55,10 @@ const sendEmail = async (recipient, sender, body, subject) => {
   }
 };
 
-const baseUrl = 'https://earlyparentinghub.org';
+const baseUrl =
+  config.NODE_ENV === 'production'
+    ? 'https://earlyparentinghub.org'
+    : 'http://localhost:5173';
 
 export const sendWelcomeEmail = async (recipient, id, providerType) => {
   const subject = 'Welcome to earlyparentinghub';
@@ -64,13 +68,13 @@ export const sendWelcomeEmail = async (recipient, id, providerType) => {
   return sendEmail(recipient, 'welcome@earlyparentinghub.org', body, subject);
 };
 
-export const sendRequestEditEmail = async (recipient, userNote, hash) => {
+export const sendRequestEditEmail = async (recipient, userNote, hash, id) => {
   const subject = 'Someone has requested an edit';
 
   const body = `<p>Someone thinks your information needs to be updated. Here's the note they left: ${userNote}</p>
-    <p><a href='${baseUrl}/${hash}'>Click here</a> to edit your information.</p>
+    <p><a href='${baseUrl}/${id}/edit/${hash}'>Click here</a> to edit your information.</p>
     <p>If you didn't initiate this request, or don't need to update your information, feel free to disregard this email.</p>`;
-
+  console.log(recipient);
   return sendEmail(recipient, 'help@earlyparentinghub.org', body, subject);
 };
 
