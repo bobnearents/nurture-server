@@ -62,13 +62,12 @@ class CrudFunctions {
 
     let queryString = '';
     flattenedPatchBody.forEach((body, index) => {
-      const value = body[1] !== undefined || null ? `'${body[1]}'` : null;
+      const value = body[1] !== (undefined || null) ? `'${body[1]}'` : null;
       queryString += `${body[0]} = ${value}`;
       if (index != flattenedPatchBody.length - 1) {
         queryString += ', ';
       }
     });
-
     const res = await handleQuery(
       `UPDATE ${this.table} SET ${queryString} WHERE id = ${id}`
     );

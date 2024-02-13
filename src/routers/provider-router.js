@@ -2,7 +2,7 @@ import express from 'express';
 import * as primaryService from '../services/primary-service.js';
 import crudService from '../services/crud-service.js';
 import { sendRequestEditEmail, sendWelcomeEmail } from '../services/aws/ses.js';
-import { upload } from '../services/aws/s3.js';
+import { deletePhoto, upload } from '../services/aws/s3.js';
 import { v4 as uuidv4 } from 'uuid';
 
 const providerRouter = express.Router();
@@ -37,6 +37,16 @@ providerRouter
       res.send({ error: e.message ? e.message : 'there was an error' });
     }
   });
+providerRouter.route('/delete-photo').patch(async (req, res) => {
+  const { key } = req.body;
+  const [photoType, id] = key.split('.')[0].split('-');
+
+  const photoResponse = await deletePhoto(key);
+  const updateResponse = await crudService.provider.update(Number(id), {
+    [photoType]: null
+  });
+  res.send('okay');
+});
 providerRouter
   .route('/:id')
   .get(async (req, res) => {
@@ -50,6 +60,7 @@ providerRouter
     }
   })
   .patch(async (req, res) => {
+    console.log('?????');
     const { id } = req.params;
     const hash = uuidv4();
     const patchBody = req.query.addHash
@@ -93,8 +104,9 @@ providerRouter.route('/:id/upload').patch(
   async (req, res) => {
     const { id } = req.params;
     const photoTypes = Object.keys(res.req.files);
+    console.log(res.req.files);
     const patchBody = photoTypes.reduce(
-      (acc, cur) => ({ ...acc, [cur]: res.req.files[cur][0].location }),
+      (acc, cur) => ({ ...acc, [cur]: res.req.files[cur][0].key }),
       {}
     );
 
@@ -102,17 +114,5 @@ providerRouter.route('/:id/upload').patch(
     res.send(patchBody);
   }
 );
-// .delete('/s3/:key', async (req, res) => {
-//   const { key } = req.params;
-//   console.log(key, req.body);
-//   const [photoType, id] = key.split('.')[0].split('-');
-
-//   const photoResponse = await deletePhoto(key);
-//   const updateResponse = await crudService.provider.update(Number(id), {
-//     [photoType]: null
-//   });
-//   console.log(photoResponse, updateResponse);
-//   res.send('okay');
-// });
 
 export default providerRouter;
