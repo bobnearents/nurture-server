@@ -50,8 +50,9 @@ const sendEmail = async (recipient, sender, body, subject) => {
   } catch (e) {
     console.log(e);
     console.error('Failed to send email.', emailCommand);
-    res.send(e.message, e.msg, emailCommand);
-    return e;
+
+    // res.send(e.message, e.msg, emailCommand);
+    return e.msg + e.message;
   }
 };
 
