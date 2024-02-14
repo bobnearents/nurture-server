@@ -62,7 +62,6 @@ providerRouter
     }
   })
   .patch(async (req, res) => {
-    console.log('?????');
     const { id } = req.params;
     const hash = uuidv4();
     const patchBody = req.query.addHash
@@ -75,13 +74,11 @@ providerRouter
       req.providerType
     );
     if (req.query.addHash) {
-      // const { email } = await primaryService.getProviderById(
-      //   id,
-      //   req.providerType
-      // );
-      const email = 'bobnearents@gmail.com';
+      const { email } = await primaryService.getProviderById(
+        id,
+        req.providerType
+      );
       const { note } = req.body;
-      // console.log('body:', note);
       sendRequestEditEmail(email, note, hash, id);
     }
     res.send({ response });
