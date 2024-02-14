@@ -11,8 +11,10 @@ providerRouter
   .route('/')
   .get(async (req, res) => {
     try {
+      const { isPending } = req.query;
+      console.log(isPending);
       const rows = await primaryService.getAllProviders(
-        false,
+        isPending,
         req.providerType
       );
       res.send(rows);

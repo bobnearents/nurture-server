@@ -305,7 +305,7 @@
         { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
         {
           "name": "provider_id",
-          "dataTypes": "INTEGER REFERENCES provider(id) NOT NULL"
+          "dataTypes": "INTEGER REFERENCES provider(id) ON DELETE CASCADE NOT NULL"
         },
         {
           "name": "date_created",
