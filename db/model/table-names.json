@@ -93,7 +93,8 @@
         "Nonprofit Organization",
         "For Profit Organization or Business",
         "Government Agency",
-        "Insurance Provider"
+        "Insurance Provider",
+        "Other (please specify)"
       ]
     },
     {
@@ -106,6 +107,7 @@
       ],
       "seedNames": [
         "English",
+        "Spanish",
         "Afrikaans",
         "Albanian",
         "American Sign Language (ASL)",
@@ -155,7 +157,6 @@
         "Romanian",
         "Russian",
         "Serbian",
-        "Spanish",
         "Swahili",
         "Swedish",
         "Tagalog",
@@ -184,7 +185,8 @@
         "Transgender",
         "Cisgender",
         "Genderqueer or gender nonconforming",
-        "Prefer not to say"
+        "Prefer not to say",
+        "Prefer to self-describe (please specify)"
       ]
     },
     {
@@ -200,7 +202,8 @@
         "He/Him/His",
         "They/Them/Theirs",
         "Ze/Hir/Hirs",
-        "Prefer not to answer"
+        "Prefer not to answer",
+        "Not listed (please specify)"
       ]
     },
     {
@@ -220,7 +223,8 @@
         "Native Hawaiian or Pacific Islander",
         "White",
         "Don’t know",
-        "Prefer not to answer"
+        "Prefer not to answer",
+        "Not listed (please specify)"
       ]
     },
     {
@@ -262,6 +266,16 @@
         { "name": "logo", "dataTypes": "TEXT" },
         { "name": "profile_photo", "dataTypes": "TEXT" }
       ]
+    },
+    {
+      "dbName": "age",
+      "jsName": "age",
+      "endpointName": "/age",
+      "columns": [
+        { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
+        { "name": "name", "dataTypes": "TEXT NOT NULL" }
+      ],
+      "seedNames": ["18-20", "21-29", "30-39", "40-49", "50-59", "60 or older"]
     },
     {
       "dbName": "organization",
@@ -313,7 +327,7 @@
         },
         {
           "name": "age",
-          "dataTypes": "INTEGER"
+          "dataTypes": "TEXT"
         }
       ]
     }

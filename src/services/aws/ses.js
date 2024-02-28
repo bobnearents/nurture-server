@@ -63,9 +63,10 @@ const baseUrl =
 
 export const sendWelcomeEmail = async (recipient, id, providerType) => {
   const subject = 'Welcome to earlyparentinghub';
-  const body =
-    '<p>Thank you for submitting you information to our directory. Your information will be approved shortly.</p>' +
-    `<p>Feel free to <a href='${baseUrl}/${providerType}/${id}'>click here</a> in the mean time to see a preview of your profile page.`;
+  const body = '<p>Thank you for submitting you information to our directory. Your submission will be reviewed shortly, and we will contact you when it is approved or if we have any questions.</p>' +
+    `<p>Feel free to <a href='${baseUrl}/${providerType}/${id}'>click here</a> in the mean time to see a preview of your profile page.
+    <p>Thank you for helping to make access to Richmond’s birth and early parenting resources easier! </p>
+    <p>The Nurture Team</p>`;
   return sendEmail(recipient, 'welcome@earlyparentinghub.org', body, subject);
 };
 
