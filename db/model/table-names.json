@@ -202,7 +202,7 @@
         "He/Him/His",
         "They/Them/Theirs",
         "Ze/Hir/Hirs",
-        "Prefer not to answer",
+        "Prefer not to say",
         "Not listed (please specify)"
       ]
     },
@@ -223,7 +223,7 @@
         "Native Hawaiian or Pacific Islander",
         "White",
         "Don’t know",
-        "Prefer not to answer",
+        "Prefer not to say",
         "Not listed (please specify)"
       ]
     },
@@ -275,7 +275,7 @@
         { "name": "id", "dataTypes": "SERIAL PRIMARY KEY NOT NULL" },
         { "name": "name", "dataTypes": "TEXT NOT NULL" }
       ],
-      "seedNames": ["18-20", "21-29", "30-39", "40-49", "50-59", "60 or older"]
+      "seedNames": ["18-20", "21-29", "30-39", "40-49", "50-59", "60 or older", "prefer not to say"]
     },
     {
       "dbName": "organization",
