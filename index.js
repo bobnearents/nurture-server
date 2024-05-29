@@ -89,7 +89,7 @@ app.use('/beta-launch', async (req, res) => {
     const { name, email, edit_hash, id } = provider;
     sendBetaLaunchEmail(email, name, id, edit_hash)
   })
-  console.log(`sent welcome emailt to ${count} providers`)
+  console.log(`sent welcome email to ${count} providers`)
   res.send('ok');
 });
 // app.use('/admin', adminRouter);
