@@ -1,7 +1,7 @@
 import express from 'express';
 import * as primaryService from '../services/primary-service.js';
 import crudService from '../services/crud-service.js';
-import { sendRequestEditEmail, sendWelcomeEmail } from '../services/aws/ses.js';
+import { sendEditSuccessEmail, sendRequestEditEmail, sendWelcomeEmail } from '../services/aws/ses.js';
 import { deletePhoto, upload } from '../services/aws/s3.js';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -73,13 +73,16 @@ providerRouter
       id,
       req.providerType
     );
+    const { email } = await primaryService.getProviderById(
+      id,
+      req.providerType
+    );
     if (req.query.addHash) {
-      const { email } = await primaryService.getProviderById(
-        id,
-        req.providerType
-      );
       const { note } = req.body;
       sendRequestEditEmail(email, note, hash, id);
+    }
+    else {
+      sendEditSuccessEmail(email, req.providerType, id)
     }
     res.send({ response });
   })
