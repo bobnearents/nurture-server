@@ -98,14 +98,14 @@ export const sendEditSuccessEmail = async (recipient, providerType, id) => {
 
 export const sendBetaLaunchEmail = async (
   recipient,
-  providerType,
+  name,
   id,
-  hash
+  edit_hash
 ) => {
   const subject = 'Thanks for joining our beta';
 
-  const body = `<p><a href='${baseUrl}'>Click here</a> to check out the new resource directory!</p>
-    <p><a href='${baseUrl}/${hash}'>Click here</a> to edit your information. Please update your information and add a photo to your profile, and help us better serve our community.</p>`;
+  const body = `<p>Hello ${name}!</p><br/><br/><p><a href='${baseUrl}'>Click here</a> to check out the new resource directory!</p>
+    <p><a href='${baseUrl}/${id}/edit/${edit_hash}'>Click here</a> to edit your information. Please update your information and add a photo to your profile, and help us better serve our community.</p>`;
 
-  return sendEmail(recipient, 'success@earlyparentinghub.org', body, subject);
+  return sendEmail(recipient, 'welcome@earlyparentinghub.org', body, subject);
 };

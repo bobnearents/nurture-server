@@ -10,11 +10,14 @@ import config from './config/config.js';
 import express from 'express';
 import genericRouter from './src/routers/api-routes.js';
 import providerRouter from './src/routers/provider-router.js';
+import { v4 as uuidv4 } from 'uuid';
 import {
   convertNameToTypeFromOtherType,
   getOptionTableNames
 } from './db/model/helpers.js';
 import emailRouter from './src/routers/email-router.js';
+import { getAllProviders, editProvider } from './src/services/primary-service.js';
+import { sendAdminEmail, sendBetaLaunchEmail } from './src/services/aws/ses.js';
 // import organizationRouter from './src/organization/organization-router.js';
 
 const app = express();
@@ -65,6 +68,27 @@ app.use(
   providerRouter
 );
 app.use('/send-email', emailRouter);
+app.use('/beta-launch', async (req, res) => {
+  console.log('sending launch email to all beta providers');
+  const providers = await getAllProviders(true, 'provider');
+  await providers.forEach(async (provider) => {
+    
+    const hash = uuidv4();
+    const patchBody = { general: { edit_hash: hash } };
+    const response = await editProvider(
+      patchBody,
+      provider.id,
+      'provider'
+    );
+    console.log('hash added to' + provider.name)
+  });
+  const updatedProviders = await getAllProviders(true, 'provider');
+  await updatedProviders.forEach(provider => {
+    const { name, email, edit_hash, id } = provider;
+    sendBetaLaunchEmail('bobnearents@gmail.com', name, id, edit_hash)
+  })
+  res.send('ok');
+});
 // app.use('/admin', adminRouter);
 // app.use('/zip-codes', zipRouter);
 
