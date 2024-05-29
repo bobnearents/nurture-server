@@ -10,7 +10,6 @@
     "db:restore": "./db/restore-recent-data.sh",
     "predb:rebuild": "npm run generate-sql",
     "db:rebuild": "npm run migrate 0 && npm run migrate && npm run seed",
-    "postdb:rebuild": "npm run db:restore",
     "db:update": "npm run db:backup && npm run rebuild",
     "generate-sql": "node ./db/model/generate-migrations.js && node ./db/model/generate-seeds.js",
     "seed-sheets": "./db/seed-sheets-data.sh",

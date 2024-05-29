@@ -328,6 +328,14 @@
         {
           "name": "age",
           "dataTypes": "TEXT"
+        },
+        {
+          "name": "ethnicity_consent",
+          "dataTypes": "BOOLEAN"
+        },
+        {
+          "name": "gender_consent",
+          "dataTypes": "BOOLEAN"
         }
       ]
     }
