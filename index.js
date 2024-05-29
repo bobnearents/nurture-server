@@ -83,10 +83,13 @@ app.use('/beta-launch', async (req, res) => {
     console.log('hash added to' + provider.name)
   });
   const updatedProviders = await getAllProviders(true, 'provider');
+  let count = 0;
   await updatedProviders.forEach(provider => {
+    count++
     const { name, email, edit_hash, id } = provider;
-    sendBetaLaunchEmail('bobnearents@gmail.com', name, id, edit_hash)
+    sendBetaLaunchEmail(email, name, id, edit_hash)
   })
+  console.log(`sent welcome emailt to ${count} providers`)
   res.send('ok');
 });
 // app.use('/admin', adminRouter);
